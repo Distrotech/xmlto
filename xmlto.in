@@ -273,8 +273,8 @@ while [ "$#" -gt "0" ]; do
 	;;
   --stringparam)
 	MYPARAM="$2"
-	XSLTPARAMS="XSLTPARAMS --stringparam ${MYPARAM%=*}"
-	XSLTPARAMS="XSLTPARAMS $MYPARAM#*=}"
+	XSLTPARAMS="$XSLTPARAMS --stringparam ${MYPARAM%=*}"
+	XSLTPARAMS="$XSLTPARAMS ${MYPARAM#*=}"
 	shift 2
 	;;
   --noclean)
