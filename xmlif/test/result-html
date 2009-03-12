@@ -1,0 +1,29 @@
+Preamble
+<!-- this is the test on the manual page -->
+Always issue this text.
+
+Issue this text if 'condition=html' is given on the command line.
+
+
+
+
+
+
+Always issue this text.
+<!-- this ends the test on the manual page -->
+
+
+
+
+
+Should display only if condition is not foo and not baz
+
+
+Should display only if condition is not bar
+
+
+
+
+
+
+Postamble.

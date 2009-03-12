@@ -1,0 +1,19 @@
+#!/bin/bash
+
+XMLIF=${top_builddir}/xmlif/xmlif
+INPUT=${top_srcdir}/xmlif/test/test.xml
+OUTPUT=${top_builddir}/xmlif/test/test-
+
+mkdir -p ${top_builddir}/xmlif/test
+
+${XMLIF} <${INPUT} >${OUTPUT}no-condition
+${XMLIF} unrelated=condition <${INPUT} >${OUTPUT}unrelated-condition
+for condition in html pdf ps foo baz bar
+do
+  ${XMLIF} condition=${condition} <${INPUT} >${OUTPUT}${condition}
+done
+
+for test in no-condition unrelated-condition html pdf ps foo baz bar
+do
+  cmp ${top_srcdir}/xmlif/test/result-${test} ${OUTPUT}${test} || exit 1
+done

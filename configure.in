@@ -1,0 +1,50 @@
+AC_INIT(xmlto, 0.0.21)
+AC_CONFIG_SRCDIR(xmlto.spec.in)
+AM_INIT_AUTOMAKE([dist-bzip2 subdir-objects 1.6])
+AM_CONFIG_HEADER(config.h)
+
+AC_PROG_CC
+AM_PROG_CC_C_O
+AM_PROG_LEX
+
+AC_MSG_CHECKING(for mktemp program)
+MKTEMP=mktemp
+AC_ARG_WITH(mktemp, [  --with-mktemp=MKTEMP    name of the mktemp program],
+  MKTEMP=$withval)
+AC_MSG_RESULT($MKTEMP)
+
+AC_MSG_CHECKING(for GNU find program)
+FIND=find
+AC_ARG_WITH(find, [  --with-find=FIND        name of the GNU find program],
+  FIND=$withval)
+AC_MSG_RESULT($FIND)
+
+AC_MSG_CHECKING(for bash)
+BASH=/bin/bash
+AC_ARG_WITH(bash, [  --with-bash=BASH        name of the bash program],
+  BASH=$withval)
+AC_MSG_RESULT($BASH)
+
+AC_MSG_CHECKING(for getopt program)
+GETOPT=getopt
+AC_ARG_WITH(getopt, [  --with-getopt=GETOPT    name of the getopt program],
+  GETOPT=$withval)
+AC_MSG_RESULT($GETOPT)
+
+AC_MSG_CHECKING(whether getopt handles long options)
+opts=`$GETOPT --longoptions=help x -x`
+if test x"$opts" != x" -x --"; then
+   AC_MSG_ERROR([no
+
+You need getopt from <http://huizen.dds.nl/~frodol/getopt.html>, or
+else some other implementation that supports --longoptions.
+])
+fi
+AC_MSG_RESULT(yes)
+
+AC_SUBST(MKTEMP)
+AC_SUBST(FIND)
+AC_SUBST(BASH)
+AC_SUBST(GETOPT)
+AC_CONFIG_FILES(Makefile xmlto xmlto.spec)
+AC_OUTPUT

@@ -1,0 +1,319 @@
+<?xml version='1.0'?> <!-- -*- xml -*- -->
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.2//EN"
+ "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+<article>
+  <articleinfo>
+    <title>xmlto</title>
+
+    <author>
+      <firstname>Tim</firstname>
+      <surname>Waugh</surname>
+      <affiliation>
+        <address><email>twaugh@redhat.com</email></address>
+      </affiliation>
+    </author>
+
+    <copyright>
+      <year>2001-8</year>
+      <holder>Tim Waugh</holder>
+    </copyright>
+  </articleinfo>
+
+  <section>
+    <title>Reference</title>
+
+    <refentry>
+      <refentryinfo>
+	<title>xmlto</title>
+	<date>May 2008</date>
+	<productname>Linux</productname>
+      </refentryinfo>
+
+      <refmeta>
+	<refentrytitle>xmlto</refentrytitle>
+	<manvolnum>1</manvolnum>
+      </refmeta>
+
+      <refnamediv>
+	<refname>xmlto</refname>
+	<refpurpose>apply an XSL stylesheet to an XML document</refpurpose>
+      </refnamediv>
+
+      <refsynopsisdiv>
+	<cmdsynopsis>
+	  <command>xmlto</command>
+	  <arg choice="opt"><option>-o</option>
+            <replaceable>output_dir</replaceable></arg>
+	  <arg choice="opt"><option>-x</option>
+	    <replaceable>custom_xsl</replaceable></arg>
+	  <arg choice="opt"><option>-m</option>
+	    <replaceable>xsl_fragment</replaceable></arg>
+	  <arg choice="opt"><option>-v</option></arg>
+	  <arg choice="opt"><option>-p</option>
+	    <replaceable>postprocessor_opts</replaceable></arg>
+	  <arg choice="opt"><option>--extensions</option></arg>
+	  <arg choice="opt"><option>--searchpath</option>
+	    <replaceable>path</replaceable></arg>
+	  <arg choice="opt"><option>--skip-validation</option></arg>
+    <arg choice="opt"><option>--stringparam</option>
+      <replaceable>paramname</replaceable>=<replaceable>paramvalue</replaceable></arg>
+    <arg choice="opt"><option>--noclean</option></arg>
+    <arg choice="opt"><option>--with-fop</option></arg>
+    <arg choice="opt"><option>--with-dblatex</option></arg>
+	  <arg choice="req"><replaceable>format</replaceable></arg>
+	  <arg choice="req"><replaceable>file</replaceable></arg>
+	</cmdsynopsis>
+
+	<cmdsynopsis>
+	  <command>xmlto</command>
+	  <group choice="req">
+	    <arg>--help</arg>
+	    <arg>--version</arg>
+	  </group>
+	</cmdsynopsis>
+      </refsynopsisdiv>
+
+      <refsect1>
+	<title>Description</title>
+
+	<para>The purpose of <command>xmlto</command> is to convert an
+	 XML <replaceable>file</replaceable> to the desired
+	 <replaceable>format</replaceable> using whatever means
+	 necessary.  This may involve two steps:</para>
+
+	<procedure>
+	  <step>
+	    <para>The application of an appropriate XSL stylesheet
+	     using an XSL-T processor.</para>
+	  </step>
+
+	  <step>
+	    <para>Further processing with other tools.  This step may
+	     not be necessary.</para>
+	  </step>
+	</procedure>
+
+	<para>To decide which stylesheet to use and what, if any,
+	 needs to be done to post-process the output,
+	 <command>xmlto</command> makes use of <firstterm>format
+	 scripts</firstterm>, which are simple shell scripts that
+	 <command>xmlto</command> calls during the conversion.</para>
+
+	<para>The appropriate format script is selected based on the
+	 type of XML file and the desired output format.
+	 <command>xmlto</command> comes with some format scripts for
+	 converting DocBook XML files to a variety of formats.  You
+	 may specify your own format script by using an absolute
+	 filename for <replaceable>format</replaceable> on the command
+	 line.</para>
+
+	<para>Firstly, if <command>xmlto</command> has not been told
+	 explicitly which stylesheet to use (with the
+	 <option>-x</option> option), the format script will be called
+	 with <envar>$1</envar> set to <literal>stylesheet</literal>.
+	 The environment variable <envar>XSLT_PROCESSOR</envar>
+	 contains the base name of the executable that will be used to
+	 perform the XSL-T transformation (for example
+	 <literal>xsltproc</literal>). The format script should write 
+   the name of the stylesheet to use to standard output and exit
+	 successfully, or exit with a non-zero return code if there is
+	 no appropriate stylesheet to use (for example, if the only
+	 available stylesheet is known not to work with the XSL-T
+	 processor that will be used).  If nothing is written to
+	 standard output but the script exits successfully, no XSL-T
+	 transformation will be performed.</para>
+
+	<para>Secondly, after an XSL-T processor has been run using
+	 the stylesheet, the format script will be called again, this
+	 time with <envar>$1</envar> set to
+	 <literal>post-process</literal>.  The format script should
+	 perform any necessary steps to translate the XSL-T processed
+	 output into the desired output format, including copying the
+	 output to the desired output directory.  For post-processing,
+	 the format script is run in a temporary directory containing
+	 just the processed output (whose name is stored in
+	 <envar>XSLT_PROCESSED</envar> and whose basename is that of
+	 the original XML file with any filename extension replaced
+	 with <literal>.proc</literal>).  <envar>INPUT_FILE</envar> is
+	 set to the name of the original XML file,
+	 <envar>OUTPUT_DIR</envar> is set to the name of the directory
+	 that the output (and only the output) must end up in, and
+	 <envar>SEARCHPATH</envar> is set to a colon-separate list of
+	 fallback directories in which to look for input (for images,
+	 for example).  If this step is unsuccessful the format script
+	 should exit with a non-zero return code.</para>
+
+	<variablelist>
+	  <varlistentry>
+	    <term><option>-v</option></term>
+	    <listitem>
+	      <para>Be verbose (<option>-vv</option> for very
+	       verbose).</para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><option>-x</option> <replaceable>stylesheet</replaceable></term>
+	    <listitem>
+	      <para>Use <replaceable>stylesheet</replaceable> instead
+	       of asking the format script to choose one.</para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><option>-m</option> <replaceable>fragment</replaceable></term>
+	    <listitem>
+	      <para>Use the provided XSL
+	       <replaceable>fragment</replaceable> to modify the
+	       stylesheet.</para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><option>-o</option> <replaceable>directory</replaceable></term>
+	    <listitem>
+	      <para>Put output in the specified
+	       <replaceable>directory</replaceable> instead of the
+	       current working directory.</para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><option>-p</option> <replaceable>postprocessor_opts</replaceable></term>
+	    <listitem>
+	      <para>Pass <replaceable>postprocessor_opts</replaceable>
+	       to processing stages after stylesheet application
+	       (e.g. <application>lynx</application> or 
+	       <application>links</application> when going
+	       through HTML to text, or <application>xmltex</application>
+	       when going from through TeX to DVI).  If
+	       <option>-p</option> is specified a second time, the
+	       options specified will be passed to second-stage
+	       postprocessing; presently this is only applicable when
+	       going through <application>xmltex</application> and
+	       <application>dvips</application> to PostScript.</para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><option>--extensions</option></term>
+	    <listitem>
+	      <para>Turn on stylesheet extensions for the tool chain
+	       in use (for example, this might turn on
+	       <varname>passivetex.extensions</varname> and
+	       <varname>use.extensions</varname> if PassiveTeX is
+	       being used).  The variables turned on are the ones used
+	       by Norman Walsh's DocBook XSL stylesheets.</para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><option>--searchpath</option> <replaceable>path</replaceable></term>
+	    <listitem>
+	      <para>Add the colon-separated list of directories in
+	        <replaceable>path</replaceable> as fallback
+	        directories for including input.</para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><option>--skip-validation</option></term>
+	    <listitem>
+	      <para>Skip the validation step that is normally
+	        performed.</para>
+	    </listitem>
+	  </varlistentry>
+
+    <varlistentry>
+	    <term><option>--stringparam</option> <replaceable>paramname</replaceable>=<replaceable>paramvalue</replaceable></term>
+	    <listitem>
+	      <para>Pass a named parameter <replaceable>paramname</replaceable> 
+          with value <replaceable>paramvalue</replaceable> 
+          to stylesheet from the command line.</para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><option>--noclean</option></term>
+	    <listitem>
+	      <para>Temporary files are not deleted(their names 
+          are shown and kept in tmp directory). It could 
+          help with analyzing problems.</para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><option>--with-fop</option></term>
+	    <listitem>
+	      <para>Use <application>fop</application> for formatting. 
+          Default is still <application>passivetex</application>, 
+          installation doesn't check for <application>fop</application> 
+          availability. It is an experimental option, 
+          expects <application>fop</application> in 
+          specific location, could be changed manually 
+          in <command>xmlto</command> script by modification
+          of <varname>FOP_PATH</varname></para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><option>--with-dblatex</option></term>
+	    <listitem>
+	      <para>Use <application>dblatex</application> for formatting. 
+          Default is still <application>passivetex</application>, 
+          installation doesn't check for <application>dblatex</application> 
+          availability. It is an experimental option, 
+          expects <application>dblatex</application> in 
+          specific location, could be changed manually 
+          in <command>xmlto</command> script by modification
+          of <varname>DBLATEX_PATH</varname></para>
+	    </listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><option>--help</option></term>
+	    <listitem>
+	      <para>Display a short usage message.  It will describe xmlto's
+                options, and the available output formats.</para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><option>--version</option></term>
+	    <listitem>
+	      <para>Display the version number of xmlto.</para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+      </refsect1>
+
+      <refsect1>
+	<title>Examples</title>
+
+	<para>To convert a DocBook XML document to PDF, use:
+
+	<screen>xmlto pdf mydoc.xml</screen></para>
+
+	<para>To convert a DocBook XML document to HTML and store the
+	 resulting HTML files in a separate directory use:
+
+	<screen>xmlto -o html-dir html mydoc.xml</screen></para>
+
+	<para>To convert a DocBook XML document to a single HTML file
+	 use:
+
+	<screen>xmlto html-nochunks mydoc.xml</screen></para>
+
+	<para>To modify the output using an XSL fragment use:
+
+	<screen>xmlto -m ulink.xsl pdf mydoc.xml</screen></para>
+
+	<para>To specify which stylesheet to use (overriding the one
+	 that the format script would choose) use:
+
+	<screen>xmlto -x mystylesheet.xsl pdf mydoc.xml</screen></para>
+      </refsect1>
+    </refentry>
+  </section>
+</article>

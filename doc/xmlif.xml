@@ -1,0 +1,104 @@
+<?xml version='1.0'?> <!-- -*- xml -*- -->
+<!DOCTYPE refentry PUBLIC 
+   "-//OASIS//DTD DocBook XML V4.2//EN"
+   "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+
+<refentry id='xmlif'>
+  <refentryinfo>
+    <date>Oct 15 2003</date>
+    <author>
+      <firstname>Eric</firstname>
+      <othername role="initial">S.</othername>
+      <surname>Raymond</surname>
+    </author>
+  </refentryinfo>
+
+  <refmeta>
+    <refentrytitle>xmlif</refentrytitle>
+    <manvolnum>1</manvolnum>
+    <refmiscinfo class='date'>Sept 26 2002</refmiscinfo>
+  </refmeta>
+
+  <refnamediv id='name'>
+    <refname>xmlif</refname>
+    <refpurpose>conditional processing instructions for XML</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv id='synopsis'>
+    <cmdsynopsis>
+      <command>xmlif</command> <arg rep='repeat'>attrib=value</arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1 id='description'><title>DESCRIPTION</title>
+
+    <para><application>xmlif</application> filters XML according to
+      conditionalizing markup.  This can be useful for formatting one
+      of several versions of an XML document depending on conditions
+      passed to the command.</para>
+
+    <para>Attribute/value pairs from the command line are matched
+      against the attributes associated with certain processing
+      instructions in the document.  The instructions are
+      <sgmltag>&lt;?xmlif if?&gt;</sgmltag> and its inverse <sgmltag>&lt;?xmlif if
+      not?&gt;</sgmltag>, <sgmltag>&lt;?xmlif elif?&gt;</sgmltag> and its
+      inverse <sgmltag>&lt;?xmlif elif not?&gt;</sgmltag>,
+      <sgmltag>&lt;?xmlif else?&gt;</sgmltag>, and
+      <sgmltag>&lt;?xmlif fi?&gt;</sgmltag>.</para>
+
+    <para>Argument/value pairs given on the command line are checked
+      against the value of corresponding attributes in the conditional
+      processing instructions.  An `attribute match' happens if an
+      attribute occurs in both the command-line arguments and the tag,
+      and the values match.  An `attribute mismatch' happens if an
+      attribute occurs in both the command-line arguments and the tag,
+      but the values do not match.</para>
+
+    <para>Spans between <sgmltag>&lt;?xmlif if?&gt;</sgmltag> or
+      <sgmltag>&lt;?xmlif elif?&gt;</sgmltag> and the next conditional
+      processing instruction at the same nesting level are passed
+      through unaltered if there is at least one attribute match and
+      no attribute mismatch; spans between <sgmltag>&lt;?xmlif if
+      not?&gt;</sgmltag> and <sgmltag>&lt;?xmlif elif not?&gt;</sgmltag> and
+      the next conditional processing instruction are passed
+      otherwise.  Spans between <sgmltag>&lt;?xmlif else?&gt;</sgmltag> and
+      the next conditional-processing tag are passed through only if
+      no previous span at the same level has been passed
+      through. <sgmltag>&lt;?xmlif if?&gt;</sgmltag> and
+      <sgmltag>&lt;?xmlif fi?&gt;</sgmltag> (and their `not' variants) change
+      the current nesting level; <sgmltag>&lt;?xmlif else?&gt;</sgmltag> and
+      <sgmltag>&lt;?xmlif elif?&gt;</sgmltag> do not.</para>
+
+    <para>All these processing instructions will be removed from the
+      output produced. Aside from the conditionalization, all other
+      input is passed through untouched; in particular, entity
+      references are not resolved.</para>
+
+    <para>Value matching is by string equality, except that "|" in an
+      attribute value is interpreted as an alternation character.
+      Thus, saying foo='red|blue' on the command line enables
+      conditions red and blue.  Saying color='black|white' in a tag
+      matches command-line conditions color='black' and
+      color='white'.</para>
+
+    <para>Here is an example:
+
+<programlisting>
+Always issue this text.
+&lt;?xmlif if condition='html'?&gt;
+Issue this text if 'condition=html' is given on the command line.
+&lt;?xmlif elif condition='pdf|ps'?&gt;
+Issue this text if 'condition=pdf' or 'condition=ps'
+is given on the command line.
+&lt;?xmlif else?&gt;
+Otherwise issue this text.
+&lt;?xmlif fi?&gt;
+Always issue this text.
+</programlisting></para>
+
+  </refsect1>
+
+  <refsect1 id='authors'><title>AUTHOR</title>
+    <para>Eric S. Raymond &lt;esr@snark.thyrsus.com&gt;.</para>
+  </refsect1>
+</refentry>

@@ -1,0 +1,103 @@
+Xmlto news
+----------
+0.0.21 (stable)
+  added experimental support for dblatex(needs installed 
+  dblatex package)
+  fixed issue with cp -a option on non-gnu systems
+  non-mandatory support for libpaper
+
+0.0.20 (stable)
+  added experimental fop support(needs installed fop package)
+  possibility to read a stylesheet from STDIN
+  some small fixes/changes in docbook formats and xmlto script
+
+0.0.19 (stable)
+	added supported for basename with spaces, stringparam
+  option for passing argument to stylesheet, bash no
+  longer hardcoded, added option for not cleaning temp
+  files for diagnostics.
+
+0.0.18 (stable)
+
+	A portability problem was fixed, and the xmlif syntax was
+	modified.
+
+0.0.17 (stable)
+
+	The exit code when validation fails was fixed. w3m is used for
+	text output.
+
+0.0.16 (stable)
+
+	Minor bug-fixes.
+
+0.0.15 (stable)
+
+	Some format script fixes.
+
+0.0.14 (stable)
+
+	The db2man fixes are no longer needed.
+
+0.0.13 (stable)
+
+	Several minor bugs were fixed.
+
+0.0.12 (stable)
+
+	Validation is now working, and output encoding is determined
+	from the environment.
+
+0.0.11 (stable)
+
+	The db2man stylesheet is no longer shipped, since it now comes
+	with docbook-xsl.  A new tool, xmlif, is included.  Several bugs
+	were fixed.
+
+0.0.10 (stable)
+
+	A small bug was fixed in the PS and DVI format scripts, and the
+	db2man code has been synchronised to CVS.
+
+0.0.9 (stable)
+
+	There were some further improvements made to db2man.
+
+0.0.8 (stable)
+
+	There were assorted fixes, and some further db2man improvements.
+
+0.0.7 (stable)
+
+	Some portability fixes were made and there were some more db2man
+	improvements.
+
+0.0.6 (stable)
+
+	Some db2man improvements were made, some minor script bugs
+	were fixed, and automatic paper size handling was added.
+
+0.0.5 (stable)
+
+	Some db2man bugs were fixed.
+
+0.0.4 (stable)
+
+	The option handling was improved.
+
+0.0.3 (stable)
+
+	The db2man stylesheet was further improved.
+
+0.0.2 (stable)
+
+	More format scripts were added, and the db2man stylesheet was
+	further improved.
+
+0.0.1 (stable)
+
+	Made the format script interface definition a bit clearer.
+
+0.0.0 (stable)
+
+	Initial release.

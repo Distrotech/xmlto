@@ -1,0 +1,34 @@
+case "$1" in
+stylesheet)
+  ;;
+post-process)
+  if [ "$VERBOSE" -ge 1 ]
+  then
+    echo >&2 "Post-process XSL-FO to DVI"
+  fi
+  # Work around stupid tetex bug with '_' in filenames
+  # Also work around stupid tetex limitation with long lines (bug #101055)
+  sed -e "s,/>,\n/>,g" "$XSLT_PROCESSED" >tmp.fo
+  OUT=output
+  TEXINPUTS="$(dirname "$INPUT_FILE")::$SEARCHPATH"
+  export TEXINPUTS
+  xmltex ${POSTARGS} tmp.fo >$OUT </dev/null || { cat $OUT; exit 1; }
+  [ "$VERBOSE" -ge 2 ] && echo >&2 "First pass complete"
+  # If there were undefined references we need to re-run xmltex.
+  if egrep '^LaTeX Warning: There were undefined references.$' $OUT \
+						>/dev/null 2>&1 \
+  || egrep '^LaTeX Warning: Label.s. may have changed\.' $OUT \
+						>/dev/null 2>&1
+  then
+    xmltex ${POSTARGS} tmp.fo >$OUT </dev/null
+    [ "$VERBOSE" -ge 2 ] && echo >&2 "Second pass complete"
+    xmltex ${POSTARGS} tmp.fo >$OUT </dev/null
+    if [ "$VERBOSE" -ge 2 ]
+    then
+      echo >&2 "Third pass complete"
+      [ "$VERBOSE" -ge 3 ] && cat $OUT
+    fi
+  fi
+  cp -R -P -p -- *.dvi "$OUTPUT_DIR/$(basename "${XSLT_PROCESSED%.*}").dvi"
+  ;;
+esac

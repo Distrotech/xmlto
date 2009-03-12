@@ -1,0 +1,26 @@
+case "$USE_BACKEND" in
+DEFAULT|DBLATEX)
+	echo "Sorry, no way to convert to pcl, use --with-fop option for that."
+	echo "You need to install fop package for that option."
+	;;
+FOP)
+  if [ ! -x "$FOP_PATH" ]; then
+    echo >&2 "Installed FOP is needed for this format. Executable fop was not found"
+    echo >&2 "on expected location ${FOP_PATH}." 
+    echo >&2 "Please install fop package or change default FOP_PATH in xmlto script." 
+    exit 1
+  fi
+	EXT=$(basename $0) 
+	case "$1" in
+	stylesheet)
+	  ;;
+	post-process)
+	  if [ "$VERBOSE" -ge 1 ]
+	  then
+	    echo >&2 "Post-process XSL-FO to PCL"
+	  fi
+	  "$FOP_PATH" ${POSTARGS} -fo "${XSLT_PROCESSED}" -"${EXT}" "$OUTPUT_DIR/$(basename ${XSLT_PROCESSED%.*}).${EXT}"
+	  ;;
+	esac
+	;;
+esac

@@ -1,0 +1,29 @@
+Preamble
+<!-- this is the test on the manual page -->
+Always issue this text.
+<?xmlif if condition='html'?>
+Issue this text if 'condition=html' is given on the command line.
+<?xmlif elif condition='pdf|ps'?>
+Issue this text if 'condition=pdf' or 'condition=ps'
+is given on the command line.
+<?xmlif else?>
+Otherwise issue this text.
+<?xmlif fi?>
+Always issue this text.
+<!-- this ends the test on the manual page -->
+<?xmlif if condition='foo'?>
+Should display only if condition is foo
+<?xmlif elif condition='baz'?>
+Should display only if condition is baz
+<?xmlif else?>
+Should display only if condition is not foo and not baz
+<?xmlif fi?>
+<?xmlif if not condition='bar'?>
+Should display only if condition is not bar
+<?xmlif if cond2='on'?>
+This should be displayed only when cond2 is on.
+<?xmlif fi?>
+<?xmlif else?>
+Should display only if condition is bar
+<?xmlif fi?>
+Postamble.
