@@ -1,5 +1,5 @@
 #!@BASH@
-# 
+#
 # @PACKAGE@ - apply an XSL stylesheet to an XML document
 # Copyright (C) 2001, 2002, 2003  Tim Waugh <twaugh@redhat.com>
 
@@ -106,6 +106,8 @@ then
   if [ -n "$paperheight" -a -n "$paperwidth" ]
   then
     papersizemod=$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-xsl.XXXXXX)
+    CLEANFILES[$CLEANFILE_COUNT]="$papersizemod"
+    CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
     cat << EOF > "$papersizemod"
 <?xml version='1.0'?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -337,8 +339,6 @@ case "$DEST_FORMAT" in
   fo | pdf | ps | dvi)
     if [ -n "$papersizemod" ]
     then
-      CLEANFILES[$CLEANFILE_COUNT]="$papersizemod"
-      CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
       XSL_MODS[$XSL_MOD_COUNT]="$papersizemod"
       XSL_MOD_COUNT=$(($XSL_MOD_COUNT + 1))
     fi
@@ -381,7 +381,7 @@ XSLT_PROCESSOR=xsltproc # We only know about xsltproc right now.
 export XSLT_PROCESSOR
 export FOP_PATH
 export DBLATEX_PATH
-export USE_BACKEND 
+export USE_BACKEND
 if [ -z "$STYLESHEET" ]
 then
   STYLESHEET="$(${BASH} "$FORMAT" stylesheet)" || exit 1
