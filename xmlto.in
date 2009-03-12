@@ -427,8 +427,10 @@ if [ "$SKIP_VALIDATION" -eq 0 ] && [ "$SOURCE_FORMAT" != "fo" ]
 then
   VALIDATION="${XSLT_PROCESSED_DIR}/validation-errors"
   [ "$VERBOSE" -ge 1 ] && \
-    echo >&2 "xmllint >/dev/null --xinclude --postvalid \"$INPUT_FILE\""
-  xmllint >/dev/null --xinclude --postvalid "$INPUT_FILE" 2>"${VALIDATION}"
+  echo >&2 \
+     "xmllint >/dev/null --nonet --xinclude --postvalid --noent \"$INPUT_FILE\""
+  xmllint >/dev/null --nonet --xinclude --postvalid --noent \
+     "$INPUT_FILE" 2>"${VALIDATION}"
   xmllint_status=$?
   if [ $xmllint_status -ne 0 ]
   then
