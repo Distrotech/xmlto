@@ -26,12 +26,51 @@ if test "x$BASH" = x; then
   AC_PATH_PROGS(BASH, "bash")
   if test "x$BASH" = x; then
     BASH=/bin/bash
-    AC_MSG_RESULT(Command bash not found automatically - using $BASH)
+    AC_MSG_RESULT(Path to bash not found automatically - using $BASH)
   fi
 else
   AC_MSG_CHECKING(for bash)
   AC_MSG_RESULT($BASH)
 fi
+
+DBLATEX=
+AC_ARG_WITH(dblatex, [  --with-dblatex=DBLATEX        name of the dblatex program],
+  DBLATEX=$withval)
+if test "x$DBLATEX" = x; then
+  AC_PATH_PROGS(DBLATEX, "dblatex")
+  if test "x$DBLATEX" = x; then
+    BASH=/usr/bin/dblatex
+    AC_MSG_RESULT(Path to dblatex not found automatically - using $DBLATEX)
+  fi
+else
+  AC_MSG_CHECKING(for dblatex)
+  AC_MSG_RESULT($DBLATEX)
+fi
+
+FOP=
+AC_ARG_WITH(fop, [  --with-fop=FOP        name of the fop program],
+  fop=$withval)
+if test "x$FOP" = x; then
+  AC_PATH_PROGS(FOP, "fop")
+  if test "x$FOP" = x; then
+    BASH=/usr/bin/fop
+    AC_MSG_RESULT(Path to fop not found automatically - using $FOP)
+  fi
+else
+  AC_MSG_CHECKING(for fop)
+  AC_MSG_RESULT($FOP)
+fi
+
+BACKEND="DEFAULT"
+AC_ARG_WITH(backend, [  --with-backend=BACKARG      default backend(passivetex,fop,dblatex)],
+  backend=$withval)
+if test "x$BACKARG" = xfop; then
+  BACKEND="FOP"
+fi
+if test "x$BACKARG" = xdblatex; then
+  BACKEND="DBLATEX"
+fi
+
 
 AC_MSG_CHECKING(for getopt program)
 GETOPT=getopt
@@ -54,5 +93,8 @@ AC_SUBST(MKTEMP)
 AC_SUBST(FIND)
 AC_SUBST(BASH)
 AC_SUBST(GETOPT)
+AC_SUBST(FOP)
+AC_SUBST(DBLATEX)
+AC_SUBST(BACKEND)
 AC_CONFIG_FILES(Makefile xmlto xmlto.spec)
 AC_OUTPUT

@@ -44,11 +44,9 @@ OPTIONs are:
   --stringparam paramname=paramvalue
                   pass a named parameter to the stylesheet from the
                   command line
-  --noclean       temp files are not deleted(good for diagnostics)
-  --with-fop      use fop for formatting(default is passivetex,
-                  installation doesn't check for fop availability!)
-  --with-dblatex  use dblatex for formatting(default is passivetex,
-                  installation doesn't check for dblatex availability!)
+  --noclean       temp files are not deleted (good for diagnostics)
+  --with-fop      use fop for formatting (if fop available)
+  --with-dblatex  use dblatex for formatting (if dblatex available)
 
 Available FORMATs depend on the type of the XML file (which is
 determined automatically).
@@ -71,7 +69,7 @@ EOF
 # Allow FORMAT_DIR to be over-ridden, so that we can be
 # run from the build directory.
 prefix=@prefix@
-: ${FORMAT_DIR=@datadir@/@PACKAGE@/format}
+: ${FORMAT_DIR=@datarootdir@/@PACKAGE@/format}
 # This can be over-ridden, but really we should detect the source
 # document type without needing any help.
 : ${SOURCE_FORMAT=docbook}
@@ -192,13 +190,10 @@ SKIP_VALIDATION=0
 EXTENSIONS=0
 
 #actual possibilities DEFAULT(XSL-FO/passivetex), FOP and DBLATEX
-USE_BACKEND="DEFAULT"
+USE_BACKEND=@BACKEND@
 
-#modify FOP_PATH manually if you have fop in different location
-FOP_PATH="/usr/bin/fop"
-
-#modify DBLATEX_PATH manually if you have dblatex in different location
-DBLATEX_PATH="/usr/bin/dblatex"
+FOP_PATH=@FOP@
+DBLATEX_PATH=@DBLATEX@
 
 # Process any options
 ARGS=$(${GETOPT} \
@@ -285,12 +280,22 @@ while [ "$#" -gt "0" ]; do
 	;;
 	--with-fop)
 	##use fop instead of passivetex where possible
-	USE_BACKEND="FOP"
+	if [ -x "$FOP_PATH" ]; then
+		USE_BACKEND="FOP"
+	else
+		echo 2> Warning: fop not found or not executable at path $FOP_PATH.
+		echo 2> Using default backend...
+	fi
 	shift
 	;;
   --with-dblatex)
   ##use dblatex instead of passivetex where possible
-  USE_BACKEND="DBLATEX"
+	if [ -x "$DBLATEX_PATH" ]; then
+		USE_BACKEND="DBLATEX"
+	else
+		echo 2> Warning: dblatex not found or not executable at path $DBLATEX_PATH.
+		echo 2> Using default backend...
+	fi
   shift
   ;;
   --)
