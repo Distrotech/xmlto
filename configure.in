@@ -19,11 +19,19 @@ AC_ARG_WITH(find, [  --with-find=FIND        name of the GNU find program],
   FIND=$withval)
 AC_MSG_RESULT($FIND)
 
-AC_MSG_CHECKING(for bash)
-BASH=/bin/bash
+BASH=
 AC_ARG_WITH(bash, [  --with-bash=BASH        name of the bash program],
   BASH=$withval)
-AC_MSG_RESULT($BASH)
+if test "x$BASH" = x; then
+  AC_PATH_PROGS(BASH, "bash")
+  if test "x$BASH" = x; then
+    BASH=/bin/bash
+    AC_MSG_RESULT(Command bash not found automatically - using $BASH)
+  fi
+else
+  AC_MSG_CHECKING(for bash)
+  AC_MSG_RESULT($BASH)
+fi
 
 AC_MSG_CHECKING(for getopt program)
 GETOPT=getopt
