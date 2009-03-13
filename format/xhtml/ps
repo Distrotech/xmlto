@@ -1,0 +1,13 @@
+case "$1" in
+stylesheet)
+  if [ "$VERBOSE" -ge 1 ]
+  then
+    echo >&2 "Convert to XSL-FO"
+  fi
+  echo "http://www.antennahouse.com/XSLsample/sample-xsl-xhtml2fo/xhtml2fo.xsl"
+  ;;
+post-process)
+  # Get the FO format script to do the rest
+  sh "$(dirname "$0")/../fo/$(basename "$0")" "$1"
+  ;;
+esac
