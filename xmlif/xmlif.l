@@ -3,7 +3,20 @@
  * xmlif -- support processing instructions for XML conditionalization
  *
  * By Eric S. Raymond <esr@thyrsus.com>, 3 Nov 1997 (as sgmlpre)
- * Enhanced for XML September 2002
+ * Enhanced for XML September 2002, Licensed under GPLv2+ since 03/2009
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Filter XML according to conditionalizing markup.  Argument/value
  * pairs from the command line are matched against the attributes of
@@ -19,7 +32,7 @@
  * <?xmlif if>, <?xmlif fi>, <?xmlif else> and <?xmlif elif>, and will
  * all be removed from the output.
  *
- * This lexer requires flex.  Limitations; attributes and values may be 
+ * This lexer requires flex.  Limitations; attributes and values may be
  * only 16384 (YY_BUF_SIZE) characters long.
  */
 #include <string.h>
@@ -34,7 +47,7 @@ static ifsense;			/* sense of last `if' or unless seen */
 static char *attribute;		/* last attribute scanned */
 
 struct stack_t {
-    int 		matched;	/* matched at current level */
+    int			matched;	/* matched at current level */
     int			suppressed;    /* suppressed branch? */
     struct stack_t	*up;
 };
@@ -111,7 +124,7 @@ static int value_match(char *value, char *against)
     fprintf(stderr, "{value_match(%s, %s)}", value, against);
 #endif /* DEBUG */
 
-    for (vp = value; *vp; vp += vn) 
+    for (vp = value; *vp; vp += vn)
     {
 	vn = strcspn(vp, "|");
 	for (ap = against; *ap; ap += an)
@@ -121,7 +134,7 @@ static int value_match(char *value, char *against)
 		return(TRUE);
 	    if (ap[an] == '|')
 		an++;
-	} 
+	}
 	if (vp[vn] == '|')
 	    vn++;
     }
@@ -146,7 +159,7 @@ static int suppress(char *attr, char *value)
 	    goto breakout;
 	}
     }
-	
+
     res = 1;	/* no match -- suppress but don't lock it in */
  breakout:
 #ifdef DEBUG
