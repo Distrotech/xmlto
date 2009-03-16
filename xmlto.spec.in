@@ -18,10 +18,8 @@ BuildRequires: util-linux, flex
 # We rely entirely on the DocBook XSL stylesheets!
 Requires: docbook-xsl >= 1.56.0
 
-# We need one of text-www-browsers(w3m,lynx,elinks) for full functionality
-# Chosen w3m, in Fedora there is require for virtual provide
-# text-www-browser instead of it
-Requires: w3m
+# We need one of text-www-browsers(w3m,lynx,[e]links) for full functionality
+Requires: @WEBBROWSER@
 
 # For full functionality, we need passivetex.
 Requires: passivetex >= 1.11

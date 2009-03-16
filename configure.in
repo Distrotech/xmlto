@@ -71,6 +71,22 @@ if test "x$BACKARG" = xdblatex; then
   BACKEND="DBLATEX"
 fi
 
+WEBBROWSER="w3m"
+AC_ARG_WITH(webbrowser, [  --with-webbrowser=BROWSER      default webbrowser(w3m,lynx,links,elinks,any)],
+  BROWSER=$withval)
+if test "x$BROWSER" = xlinks; then
+  WEBBROWSER="links"
+fi
+if test "x$BROWSER" = xelinks; then
+  WEBBROWSER="elinks"
+fi
+if test "x$BROWSER" = xlynx; then
+  WEBBROWSER="lynx"
+fi
+if test "x$BROWSER" = xany; then
+  WEBBROWSER="text-www-browser"
+fi
+
 
 AC_MSG_CHECKING(for getopt program)
 GETOPT=getopt
@@ -96,5 +112,6 @@ AC_SUBST(GETOPT)
 AC_SUBST(FOP)
 AC_SUBST(DBLATEX)
 AC_SUBST(BACKEND)
+AC_SUBST(WEBBROWSER)
 AC_CONFIG_FILES(Makefile xmlto xmlto.spec)
 AC_OUTPUT
