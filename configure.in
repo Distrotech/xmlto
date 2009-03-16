@@ -61,6 +61,48 @@ else
   AC_MSG_RESULT($FOP)
 fi
 
+LYNX=
+AC_ARG_WITH(lynx, [  --with-lynx=LYNX      path to the lynx program],
+  LYNX=$withval)
+if test "x$LYNX" = x; then
+  AC_PATH_PROGS(LYNX, "lynx")
+  if test "x$LYNX" = x; then
+    LYNX=/usr/bin/lynx
+    AC_MSG_RESULT(Path to lynx not found automatically - using $LYNX)
+  fi
+else
+  AC_MSG_CHECKING(for lynx)
+  AC_MSG_RESULT($LYNX)
+fi
+
+LINKS=
+AC_ARG_WITH(links, [  --with-links=LINKS     path to the links program],
+  LINKS=$withval)
+if test "x$LINKS" = x; then
+  AC_PATH_PROGS(LINKS, "links")
+  if test "x$LINKS" = x; then
+    LINKS=/usr/bin/links
+    AC_MSG_RESULT(Path to [e]links not found automatically - using $LINKS)
+  fi
+else
+  AC_MSG_CHECKING(for links)
+  AC_MSG_RESULT($LINKS)
+fi
+
+W3M=
+AC_ARG_WITH(w3m, [  --with-w3m=W3M     path to the w3m program],
+  W3M=$withval)
+if test "x$W3M" = x; then
+  AC_PATH_PROGS(W3M, "w3m")
+  if test "x$W3M" = x; then
+    LINKS=/usr/bin/w3m
+    AC_MSG_RESULT(Path to w3m not found automatically - using $W3M)
+  fi
+else
+  AC_MSG_CHECKING(for w3m)
+  AC_MSG_RESULT($W3M)
+fi
+
 BACKEND="DEFAULT"
 AC_ARG_WITH(backend, [  --with-backend=BACKARG      default backend(passivetex,fop,dblatex)],
   BACKARG=$withval)
@@ -111,6 +153,9 @@ AC_SUBST(BASH)
 AC_SUBST(GETOPT)
 AC_SUBST(FOP)
 AC_SUBST(DBLATEX)
+AC_SUBST(LYNX)
+AC_SUBST(LINKS)
+AC_SUBST(W3M)
 AC_SUBST(BACKEND)
 AC_SUBST(WEBBROWSER)
 AC_CONFIG_FILES(Makefile xmlto xmlto.spec)
