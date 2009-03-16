@@ -1,11 +1,25 @@
+2009-03-16  Ondrej Vasik <ovasik@redhat.com>
+	* configure.in: Make tools/program paths detection
+		automated, new options for hardcoding those paths
+		and for selection of default backend
+	* format/xhtml1: new backends for xhtml1 source format
+	* xmlto.in: fixed libpaper cleaning up(deb #491390),
+		fixed --stringparam option functionality, xmllint
+		validity check now uses --noent option (deb #516253),
+		added some messages to easier detection of troubles,
+		use xhtml1 source format
+	* xmlto.spec.in: split package, two subpackages added:
+		tex subpackage for backends with passivetex requirements,
+		xhtml subpackage for xhtml1 source format.
+
 2008-06-20  Ondrej Vasik <ovasik@redhat.com>
 	* configure.in: Version 0.0.21 (stable).
 	* format/docbook/*: added experimental support of dblatex,
-	  fixed non-portability issue with 'cp -a' 
+	  fixed non-portability issue with 'cp -a'
 	* format/fo/*: added experimental support of dblatex,
 	  fixed non-portability issue with 'cp -a'
-	* xmlto.in: added optional nonmandatory support for 
-	  libpaper, fixed bug in processing introduced by 
+	* xmlto.in: added optional nonmandatory support for
+	  libpaper, fixed bug in processing introduced by
 	  fop support
 	* doc/xmto.xml: Update documentation.
 
@@ -16,7 +30,7 @@
 	* format/fo/*: added experimental support of fop
 	* xmlto.in: changed parsing of source format(preparation
 		for X3D and xhtml1 support), allowed passing of XSL
-		stylesheet from STDIN, avoid broken manpages by 
+		stylesheet from STDIN, avoid broken manpages by
 		disabling charmap subset
 	* THANKS: (NEW)file with people who sent ideas/patches
 		used in versions 0.0.19+

@@ -1,15 +1,29 @@
 Xmlto news
 ----------
+0.0.22 (stable)
+  - added experimental support for xhtml1 source format
+  (output formats are dvi, fo, pdf, ps, txt)
+  - create tex and xhtml subpackage in spec file to reduce
+  requirements for main package
+  - automated detection of programs path, new configure
+  options for hardcoding paths when programs not present
+  in configure time
+  - fixed libpaper cleaning up(debian #491390)
+  - xmllint validity check now with noent option(debian
+    #516253)
+  - fixed --stringparam option
+  - added some messages to easier detection of troubles
+
 0.0.21 (stable)
-  added experimental support for dblatex(needs installed 
+  - added experimental support for dblatex(needs installed
   dblatex package)
-  fixed issue with cp -a option on non-gnu systems
+  - fixed issue with cp -a option on non-gnu systems
   non-mandatory support for libpaper
 
 0.0.20 (stable)
-  added experimental fop support(needs installed fop package)
+  - added experimental fop support(needs installed fop package)
   possibility to read a stylesheet from STDIN
-  some small fixes/changes in docbook formats and xmlto script
+  - some small fixes/changes in docbook formats and xmlto script
 
 0.0.19 (stable)
 	added supported for basename with spaces, stringparam

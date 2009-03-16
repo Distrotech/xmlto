@@ -19,7 +19,7 @@ BuildRequires: util-linux, flex
 Requires: docbook-xsl >= 1.56.0
 
 # We need one of text-www-browsers(w3m,lynx,elinks) for full functionality
-# Chosen w3m, in Fedora there is require for virtual provide 
+# Chosen w3m, in Fedora there is require for virtual provide
 # text-www-browser instead of it
 Requires: w3m
 
