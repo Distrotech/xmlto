@@ -109,9 +109,9 @@ rm -rf %{buildroot}
 * Tue Jan 15 2008 Ondrej Vasik <ovasik@redhat.com>
 - New version 0.0.20
 - fop experimental support
-- possibility to read stylesheet from STDIN, using 
+- possibility to read stylesheet from STDIN, using
   recursive cp in docbook formats, preparations
-  for other source formats 
+  for other source formats
 
 * Mon Nov 19 2007 Ondrej Vasik <ovasik@redhat.com>
 - New version 0.0.19
