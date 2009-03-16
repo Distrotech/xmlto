@@ -283,8 +283,8 @@ while [ "$#" -gt "0" ]; do
 	if [ -x "$FOP_PATH" ]; then
 		USE_BACKEND="FOP"
 	else
-		echo 2> Warning: fop not found or not executable at path $FOP_PATH.
-		echo 2> Using default backend...
+		echo >&2 Warning: fop not found or not executable at path $FOP_PATH.
+		echo >&2 Using default backend...
 	fi
 	shift
 	;;
@@ -293,8 +293,8 @@ while [ "$#" -gt "0" ]; do
 	if [ -x "$DBLATEX_PATH" ]; then
 		USE_BACKEND="DBLATEX"
 	else
-		echo 2> Warning: dblatex not found or not executable at path $DBLATEX_PATH.
-		echo 2> Using default backend...
+		echo >&2 Warning: dblatex not found or not executable at path $DBLATEX_PATH.
+		echo >&2 Using default backend...
 	fi
   shift
   ;;
@@ -356,11 +356,14 @@ esac
 #     sed -e 's/^<?[^?>]*?>//g' -e 's/^<![^>]*>//g' -e 's/^<\([^ ]*\).*$/\1/')
 
 # Seems reasonable fix the file command and teach it to identify the DTD/Schema but this is faster to write:
-rootel=$(echo "xpath *" | xmllint --shell $INPUT_FILE  2> /dev/null |head -n 3 |tail -n 1 | cut -f 4 -d " " )
+rootel=$(echo "xpath *" | xmllint --shell $INPUT_FILE  2> /dev/null | head -n 3 |tail -n 1 | cut -f 4 -d " " )
 
 case $(echo $rootel) in
 fo:root)
 	SOURCE_FORMAT="fo"
+	;;
+html)
+	SOURCE_FORMAT="xhtml1"
 	;;
 esac
 
