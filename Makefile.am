@@ -28,6 +28,11 @@ nobase_pkgdata_DATA = format/docbook/dvi \
   format/fo/pcl \
   format/fo/svg \
   format/fo/txt \
+  format/xhtml1/dvi \
+  format/xhtml1/fo \
+  format/xhtml1/pdf \
+  format/xhtml1/ps \
+  format/xhtml1/txt \
 	xmlto.mak
 
 EXTRA_DIST = xmlto.spec \
@@ -56,6 +61,11 @@ EXTRA_DIST = xmlto.spec \
   format/fo/pcl \
   format/fo/svg \
   format/fo/txt \
+  format/xhtml1/dvi \
+  format/xhtml1/fo \
+  format/xhtml1/pdf \
+  format/xhtml1/ps \
+  format/xhtml1/txt \
 	doc/xmlto.xml \
 	doc/xmlif.xml \
 	xmlto.mak \
