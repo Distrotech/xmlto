@@ -337,7 +337,8 @@ then
   exit 1
 fi
 
-[ ! -e "$INPUT_FILE" ] && exit 1
+[ ! -e "$INPUT_FILE" ] && echo >&2 Input file "$INPUT_FILE" not found && \
+  exit 1
 
 # Since we know DEST_FORMAT, we know whether or not to use $papersizemod.
 case "$DEST_FORMAT" in
@@ -367,7 +368,8 @@ html)
 	;;
 esac
 
-[ "$VERBOSE" -ge 1 ] && echo >&2 "Source format: ${SOURCE_FORMAT} / root element: ${rootel} "
+[ "$VERBOSE" -ge 1 ] && \
+  echo >&2 "Source format: ${SOURCE_FORMAT} / root element: ${rootel} "
 
 # If the destination format is an absolute pathname then it's a
 # user-defined format script.  Otherwise it's one of ours.
@@ -380,7 +382,7 @@ esac
 
 if [ ! -e "$FORMAT" ]
 then
-  echo "I don't know how to convert ${SOURCE_FORMAT} into ${DEST_FORMAT}."
+  echo >&2 "I don't know how to convert ${SOURCE_FORMAT} into ${DEST_FORMAT}."
   exit 1
 fi
 
@@ -443,6 +445,7 @@ then
   if [ $xmllint_status -ne 0 ]
   then
     echo >&2 "xmlto: input does not validate (status ${xmllint_status})"
+    echo >&2 "xmlto: Fix input document syntax or use --skip-validation option"
     cat >&2 "${VALIDATION}"
     exit $xmllint_status
   fi
