@@ -33,6 +33,19 @@ Requires: util-linux, flex
 This is a package for converting XML files to various formats using XSL
 stylesheets.
 
+%package tex
+Group: Applications/System
+License: GPLv2+
+Summary: A set of xmlto backends with TeX requirements
+# For full functionality, we need passivetex.
+Requires: passivetex >= 1.11
+# We require main package
+Requires: xmlto = %{version}-%{release}
+
+%description tex
+This subpackage contains xmlto backend scripts which do require
+PassiveTeX/TeX for functionality.
+
 %prep
 %setup -q
 
@@ -56,6 +69,16 @@ rm -rf %{buildroot}
 %{_bindir}/*
 %{_mandir}/*/*
 %{_datadir}/xmlto
+%exclude %dir %{_datadir}/xmlto/format/fo/
+%exclude %{_datadir}/xmlto/format/fo
+
+%files tex
+%defattr(-,root,root,-)
+%dir %{_datadir}/xmlto/format/fo/
+%{_datadir}/xmlto/format/fo/dvi
+%{_datadir}/xmlto/format/fo/ps
+%{_datadir}/xmlto/format/fo/pdf
+
 
 %changelog
 * Fri Jun 20 2008 Ondrej Vasik <ovasik@redhat.com>
