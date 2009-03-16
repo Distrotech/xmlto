@@ -24,10 +24,10 @@ DEFAULT|DBLATEX)
 	    echo >&2 "Convert to HTML (no chunks)"
 	  fi
 	  echo "http://docbook.sourceforge.net/release/xsl/current/html/docbook.xsl"
- 	 ;;
+    ;;
 	post-process)
 	  if [ "$VERBOSE" -ge 1 ]
- 	 then
+    then
 	    echo >&2 "Convert HTML to ASCII"
 	  fi
 	  ${CONVERT} ${ARGS} ${POSTARGS} "${XSLT_PROCESSED}" > \
