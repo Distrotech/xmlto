@@ -46,6 +46,19 @@ Requires: xmlto = %{version}-%{release}
 This subpackage contains xmlto backend scripts which do require
 PassiveTeX/TeX for functionality.
 
+%package xhtml
+Group: Applications/System
+License: GPLv2+
+Summary: A set of xmlto backends for xhtml1 source format
+# For functionality we need stylesheets xhtml2fo-style-xsl
+Requires: xhtml2fo-style-xsl
+# We require main package
+Requires: xmlto = %{version}-%{release}
+
+%description xhtml
+This subpackage contains xmlto backend scripts for processing
+xhtml1 source format.
+
 %prep
 %setup -q
 
@@ -69,16 +82,22 @@ rm -rf %{buildroot}
 %{_bindir}/*
 %{_mandir}/*/*
 %{_datadir}/xmlto
-%exclude %dir %{_datadir}/xmlto/format/fo/
-%exclude %{_datadir}/xmlto/format/fo
+%exclude %{_datadir}/xmlto/format/fo/dvi
+%exclude %{_datadir}/xmlto/format/fo/ps
+%exclude %{_datadir}/xmlto/format/fo/pdf
+%exclude %dir %{_datadir}/xmlto/format/xhtml1/
+%exclude %{_datadir}/xmlto/format/xhtml1
 
 %files tex
 %defattr(-,root,root,-)
-%dir %{_datadir}/xmlto/format/fo/
 %{_datadir}/xmlto/format/fo/dvi
 %{_datadir}/xmlto/format/fo/ps
 %{_datadir}/xmlto/format/fo/pdf
 
+%files xhtml
+%defattr(-,root,root,-)
+%dir %{_datadir}/xmlto/format/xhtml1/
+%{_datadir}/xmlto/format/xhtml1
 
 %changelog
 * Fri Jun 20 2008 Ondrej Vasik <ovasik@redhat.com>
