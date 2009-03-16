@@ -39,7 +39,7 @@ AC_ARG_WITH(dblatex, [  --with-dblatex=DBLATEX        name of the dblatex progra
 if test "x$DBLATEX" = x; then
   AC_PATH_PROGS(DBLATEX, "dblatex")
   if test "x$DBLATEX" = x; then
-    BASH=/usr/bin/dblatex
+    DBLATEX=/usr/bin/dblatex
     AC_MSG_RESULT(Path to dblatex not found automatically - using $DBLATEX)
   fi
 else
@@ -49,11 +49,11 @@ fi
 
 FOP=
 AC_ARG_WITH(fop, [  --with-fop=FOP        name of the fop program],
-  fop=$withval)
+  FOP=$withval)
 if test "x$FOP" = x; then
   AC_PATH_PROGS(FOP, "fop")
   if test "x$FOP" = x; then
-    BASH=/usr/bin/fop
+    FOP=/usr/bin/fop
     AC_MSG_RESULT(Path to fop not found automatically - using $FOP)
   fi
 else
@@ -63,7 +63,7 @@ fi
 
 BACKEND="DEFAULT"
 AC_ARG_WITH(backend, [  --with-backend=BACKARG      default backend(passivetex,fop,dblatex)],
-  backend=$withval)
+  BACKARG=$withval)
 if test "x$BACKARG" = xfop; then
   BACKEND="FOP"
 fi
