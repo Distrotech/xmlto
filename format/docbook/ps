@@ -9,7 +9,7 @@ DEFAULT|FOP)
     echo "http://docbook.sourceforge.net/release/xsl/current/fo/docbook.xsl"
     ;;
   post-process)
-    EXT=$(basename $0)
+    EXT=$(basename "$0")
     if [ "$VERBOSE" -ge 1 ]
     then
       echo >&2 "Convert to ${EXT}"
@@ -20,13 +20,7 @@ DEFAULT|FOP)
   esac
   ;;
 DBLATEX)
-  if [ ! -x "$DBLATEX_PATH" ]; then
-    echo >&2 "Installed DBLATEX is needed for this format. Executable dblatex was not found"
-    echo >&2 "on expected location ${DBLATEX_PATH}."
-    echo >&2 "Please install dblatex package or change default DBLATEX_PATH in xmlto script."
-    exit 1
-  fi
-  EXT=$(basename $0)
+  EXT=$(basename "$0")
   case "$1" in
   stylesheet)
     ;;

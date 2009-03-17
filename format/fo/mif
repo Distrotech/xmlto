@@ -1,16 +1,11 @@
 case "$USE_BACKEND" in
 DEFAULT|DBLATEX)
 	echo "Sorry, no way to convert to mif, use --with-fop option for that"
-	echo "You need to install fop package for that option."
+	echo "You need to install fop package for using that option."
+	exit 1
 	;;
 FOP)
-  if [ ! -x "$FOP_PATH" ]; then
-    echo >&2 "Installed FOP is needed for this format. Executable fop was not found"
-    echo >&2 "on expected location ${FOP_PATH}."
-    echo >&2 "Please install fop package or change default FOP_PATH in xmlto script."
-    exit 1
-  fi
-	EXT=$(basename $0)
+	EXT=$(basename "$0")
 	case "$1" in
 	stylesheet)
 	  ;;
