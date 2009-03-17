@@ -1,9 +1,8 @@
-
-Q: I'm trying to build xmlto on my Debian box, but it doesn't work.
+Q: I'm trying to build xmlto, but it doesn't work.
 
 A: If you get `Attempt to load network entity' errors when building
    xmlto, your system does not have the required support for XML
    Catalogs
    (http://www.oasis-open.org/committees/entity/spec-2001-08-06.html).
-   In particular, Debian has no support for these.  Try the Fedora
-   Project <http://fedoraproject.org>.
+	 Try to reinstall your docbook(xhtml1) dtds or fix your catalogs
+   manually. Verbose mode might help to analyze a problem.

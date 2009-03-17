@@ -84,7 +84,7 @@ $(man1_MANS): $(top_srcdir)/doc/xmlto.xml $(top_srcdir)/doc/xmlif.xml
 	for xml in xmlif.xml xmlto.xml; do \
 	  FORMAT_DIR=$(top_srcdir)/format \
 	   $(BASH) ./xmlto -o man/man1 man $(top_srcdir)/doc/$$xml ; \
-	done || ( RC=$$?; cat $(top_srcdir)/FAQ; exit $$RC )
+	done || ( RC=$$?; exit $$RC )
 
 TESTS_ENVIRONMENT = top_srcdir=$(top_srcdir) top_builddir=$(top_builddir)
 TESTS = xmlif/test/run-test

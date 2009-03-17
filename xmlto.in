@@ -198,6 +198,9 @@ USE_BACKEND=@BACKEND@
 FOP_PATH=@FOP@
 DBLATEX_PATH=@DBLATEX@
 
+XMLTEX_PATH=@XMLTEX@
+PDFXMLTEX_PATH=@PDFXMLTEX@
+
 #check if we could use fop/dblatex backend as default(if not, use passivetex)
 if [ x"$USE_BACKEND" = xFOP ] && [ ! -x "$FOP_PATH" ]
 then
@@ -378,7 +381,7 @@ esac
 #     sed -e 's/^<?[^?>]*?>//g' -e 's/^<![^>]*>//g' -e 's/^<\([^ ]*\).*$/\1/')
 
 # Seems reasonable fix the file command and teach it to identify the DTD/Schema but this is faster to write:
-rootel=$(echo "xpath *" | xmllint --shell $INPUT_FILE  2> /dev/null | head -n 3 |tail -n 1 | cut -f 4 -d " " )
+rootel=$(echo "xpath *" | xmllint --shell $INPUT_FILE 2> /dev/null | head -n 3 |tail -n 1 | cut -f 4 -d " " )
 
 case $(echo $rootel) in
 fo:root)
@@ -415,6 +418,8 @@ export LINKS_PATH
 export LYNX_PATH
 export FOP_PATH
 export DBLATEX_PATH
+export XMLTEX_PATH
+export PDFXMLTEX_PATH
 export USE_BACKEND
 if [ -z "$STYLESHEET" ]
 then
@@ -462,8 +467,8 @@ then
   VALIDATION="${XSLT_PROCESSED_DIR}/validation-errors"
   [ "$VERBOSE" -ge 1 ] && \
   echo >&2 \
-     "xmllint >/dev/null --nonet --xinclude --postvalid --noent \"$INPUT_FILE\""
-  xmllint >/dev/null --nonet --xinclude --postvalid --noent \
+     "xmllint --noout --nonet --xinclude --postvalid --noent \"$INPUT_FILE\""
+  xmllint --noout --nonet --xinclude --postvalid --noent \
      "$INPUT_FILE" 2>"${VALIDATION}"
   xmllint_status=$?
   if [ $xmllint_status -ne 0 ]
