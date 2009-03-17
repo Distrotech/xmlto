@@ -61,6 +61,34 @@ else
   AC_MSG_RESULT($FOP)
 fi
 
+XMLTEX=
+AC_ARG_WITH(xmltex, [  --with-xmltex=XMLTEX        name of the xmltex program],
+  XMLTEX=$withval)
+if test "x$XMLTEX" = x; then
+  AC_PATH_PROGS(XMLTEX, "xmltex")
+  if test "x$XMLTEX" = x; then
+    XMLTEX=/usr/bin/xmltex
+    AC_MSG_RESULT(Path to xmltex not found automatically - using $XMLTEX)
+  fi
+else
+  AC_MSG_CHECKING(for xmltex)
+  AC_MSG_RESULT($XMLTEX)
+fi
+
+PDFXMLTEX=
+AC_ARG_WITH(pdfxmltex, [  --with-pdfxmltex=PDFXMLTEX   name of the pdfxmltex program],
+  PDFXMLTEX=$withval)
+if test "x$PDFXMLTEX" = x; then
+  AC_PATH_PROGS(PDFXMLTEX, "pdfxmltex")
+  if test "x$PDFXMLTEX" = x; then
+    XMLTEX=/usr/bin/pdfxmltex
+    AC_MSG_RESULT(Path to pdfxmltex not found automatically - using $PDFXMLTEX)
+  fi
+else
+  AC_MSG_CHECKING(for pdfxmltex)
+  AC_MSG_RESULT($PDFXMLTEX)
+fi
+
 LYNX=
 AC_ARG_WITH(lynx, [  --with-lynx=LYNX      path to the lynx program],
   LYNX=$withval)
@@ -153,6 +181,8 @@ AC_SUBST(BASH)
 AC_SUBST(GETOPT)
 AC_SUBST(FOP)
 AC_SUBST(DBLATEX)
+AC_SUBST(XMLTEX)
+AC_SUBST(PDFXMLTEX)
 AC_SUBST(LYNX)
 AC_SUBST(LINKS)
 AC_SUBST(W3M)

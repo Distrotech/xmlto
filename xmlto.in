@@ -43,7 +43,8 @@ OPTIONs are:
   --stringparam paramname=paramvalue
                   pass a named parameter to the stylesheet from the
                   command line
-  --noclean       temp files are not deleted (good for diagnostics)
+  --noclean       temp files are not deleted automatically
+                  (good for diagnostics)
   --with-fop      use fop for formatting (if fop available)
   --with-dblatex  use dblatex for formatting (if dblatex available)
 
@@ -139,6 +140,8 @@ then
   if [ -n "$papertype" ]
   then
     papersizemod=$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-xsl.XXXXXX) || exit 2
+    CLEANFILES[$CLEANFILE_COUNT]="$papersizemod"
+    CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
     cat << EOF > "$papersizemod"
 <?xml version='1.0'?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
