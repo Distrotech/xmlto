@@ -192,8 +192,24 @@ EXTENSIONS=0
 #actual possibilities DEFAULT(XSL-FO/passivetex), FOP and DBLATEX
 USE_BACKEND=@BACKEND@
 
+
 FOP_PATH=@FOP@
 DBLATEX_PATH=@DBLATEX@
+
+#check if we could use fop/dblatex backend as default(if not, use passivetex)
+if [ x"$USE_BACKEND" = xFOP ] && [ ! -x "$FOP_PATH" ]
+then
+  echo >&2 Warning: fop not found or not executable at path $FOP_PATH.
+  echo >&2 Using default backend...
+  USE_BACKEND=DEFAULT
+fi
+if [ x"$USE_BACKEND" = xDBLATEX ] && [ ! -x "$DBLATEX_PATH" ]
+then
+  echo >&2 Warning: dblatex not found or not executable at path $DBLATEX_PATH.
+  echo >&2 Using default backend...
+  USE_BACKEND=DEFAULT
+fi
+
 LINKS_PATH=@LINKS@
 W3M_PATH=@W3M@
 LYNX_PATH=@LYNX@
