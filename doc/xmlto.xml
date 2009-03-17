@@ -128,7 +128,7 @@
 	 The environment variable <envar>XSLT_PROCESSOR</envar>
 	 contains the base name of the executable that will be used to
 	 perform the XSL-T transformation (for example
-	 <literal>xsltproc</literal>). The format script should write 
+	 <literal>xsltproc</literal>). The format script should write
    the name of the stylesheet to use to standard output and exit
 	 successfully, or exit with a non-zero return code if there is
 	 no appropriate stylesheet to use (for example, if the only

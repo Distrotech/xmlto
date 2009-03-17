@@ -103,7 +103,7 @@ then
 
   if [ -n "$paperheight" -a -n "$paperwidth" ]
   then
-    papersizemod=$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-xsl.XXXXXX)
+    papersizemod=$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-xsl.XXXXXX) || exit 2
     CLEANFILES[$CLEANFILE_COUNT]="$papersizemod"
     CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
     cat << EOF > "$papersizemod"
@@ -139,7 +139,7 @@ then
 
   if [ -n "$papertype" ]
   then
-    papersizemod=$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-xsl.XXXXXX)
+    papersizemod=$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-xsl.XXXXXX) || exit 2
     cat << EOF > "$papersizemod"
 <?xml version='1.0'?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -157,7 +157,7 @@ then
 
   if [ -n "$charmap" ]
   then
-    encodingmod=$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-xsl.XXXXXX)
+    encodingmod=$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-xsl.XXXXXX) || exit 2
     CLEANFILES[$CLEANFILE_COUNT]="$encodingmod"
     CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
     cat << EOF > "$encodingmod"
@@ -232,7 +232,7 @@ while [ "$#" -gt "0" ]; do
 	;;
   -x)
 	case "$2" in
-	-)  TMP_STYLESHEET="$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-stdin-xsl.XXXXXX)" || exit 1
+	-)  TMP_STYLESHEET="$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-stdin-xsl.XXXXXX)" || exit 2
 	    CLEANFILES[$CLEANFILE_COUNT]="$TMP_STYLESHEET"
 	    CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
 	    cat /dev/stdin > ${TMP_STYLESHEET}
@@ -425,7 +425,7 @@ if [ "$XSL_MOD_COUNT" -gt "0" -a -n "$STYLESHEET" ]
 then
   REAL_STYLESHEET="$STYLESHEET"
   [ "$VERBOSE" -ge 1 ] && echo >&2 "Real stylesheet: ${REAL_STYLESHEET}"
-  STYLESHEET="$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-xsl.XXXXXX)" || exit 1
+  STYLESHEET="$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-xsl.XXXXXX)" || exit 2
   CLEANFILES[$CLEANFILE_COUNT]="$STYLESHEET"
   CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
   cat << EOF > "$STYLESHEET"
@@ -449,7 +449,7 @@ EOF
 EOF
 fi
 
-XSLT_PROCESSED_DIR="$(${MKTEMP} -d ${TMPDIR:-/tmp}/@PACKAGE@.XXXXXX)" || exit 1
+XSLT_PROCESSED_DIR="$(${MKTEMP} -d ${TMPDIR:-/tmp}/@PACKAGE@.XXXXXX)" || exit 2
 CLEANFILES[$CLEANFILE_COUNT]="$XSLT_PROCESSED_DIR"
 CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
 cd "$XSLT_PROCESSED_DIR"
@@ -469,7 +469,7 @@ then
     echo >&2 "xmlto: input does not validate (status ${xmllint_status})"
     echo >&2 "xmlto: Fix input document syntax or use --skip-validation option"
     cat >&2 "${VALIDATION}"
-    exit $xmllint_status
+    exit $(($xmllint_status + 10))
   fi
   rm -f "${VALIDATION}"
 fi
