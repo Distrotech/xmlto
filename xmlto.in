@@ -194,6 +194,9 @@ USE_BACKEND=@BACKEND@
 
 FOP_PATH=@FOP@
 DBLATEX_PATH=@DBLATEX@
+LINKS_PATH=@LINKS@
+W3M_PATH=@W3M@
+LYNX_PATH=@LYNX@
 
 # Process any options
 ARGS=$(${GETOPT} \
@@ -389,6 +392,9 @@ fi
 # Ask the format script what stylesheet to use.
 XSLT_PROCESSOR=xsltproc # We only know about xsltproc right now.
 export XSLT_PROCESSOR
+export W3M_PATH
+export LINKS_PATH
+export LYNX_PATH
 export FOP_PATH
 export DBLATEX_PATH
 export USE_BACKEND
@@ -511,9 +517,6 @@ export POSTPOSTARGS
 export XSLT_PROCESSED
 export INPUT_FILE
 export SEARCHPATH
-export FOP_PATH
-export DBLATEX_PATH
-export USE_BACKEND
 if [ "$VERBOSE" -gt 2 ]
 then
   # Extremely verbose

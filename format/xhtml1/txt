@@ -1,14 +1,14 @@
-if [ -x /usr/bin/w3m ]
+if [ -x "$W3M_PATH" ]
 then
-  CONVERT=/usr/bin/w3m
+  CONVERT="$W3M_PATH"
   ARGS="-T text/html -dump"
-elif [ -x /usr/bin/lynx ]
+elif [ -x "$LYNX_PATH" ]
 then
-  CONVERT=/usr/bin/lynx
+  CONVERT="$LYNX_PATH"
   ARGS="-force_html -dump -nolist -width=72"
-elif [ -x /usr/bin/links ]
+elif [ -x "$LINKS_PATH" ]
 then
-  CONVERT=/usr/bin/links
+  CONVERT="$LINKS_PATH"
   ARGS="-dump"
 else
   echo >&2 "No way to convert HTML to text found."
