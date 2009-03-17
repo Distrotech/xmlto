@@ -11,11 +11,25 @@
       <affiliation>
         <address><email>twaugh@redhat.com</email></address>
       </affiliation>
+      <contrib>Original author, maintainer until 0.0.18</contrib>
     </author>
+    <author>
+      <firstname>Ondřej</firstname>
+      <surname>Vašík</surname>
+      <affiliation>
+        <address><email>ovasik@redhat.com</email></address>
+      </affiliation>
+      <contrib>Maintainer since 0.0.19</contrib>
+    </author>
+
 
     <copyright>
       <year>2001-8</year>
       <holder>Tim Waugh</holder>
+    </copyright>
+    <copyright>
+      <year>2008-9</year>
+      <holder>Ondřej Vašík</holder>
     </copyright>
   </articleinfo>
 
@@ -25,7 +39,7 @@
     <refentry>
       <refentryinfo>
 	<title>xmlto</title>
-	<date>May 2008</date>
+	<date>April 2009</date>
 	<productname>Linux</productname>
       </refentryinfo>
 
@@ -143,6 +157,10 @@
 	 for example).  If this step is unsuccessful the format script
 	 should exit with a non-zero return code.</para>
 
+      </refsect1>
+      <refsect1>
+	<title>Options</title>
+
 	<variablelist>
 	  <varlistentry>
 	    <term><option>-v</option></term>
@@ -183,7 +201,7 @@
 	    <listitem>
 	      <para>Pass <replaceable>postprocessor_opts</replaceable>
 	       to processing stages after stylesheet application
-	       (e.g. <application>lynx</application> or 
+	       (e.g. <application>lynx</application> or
 	       <application>links</application> when going
 	       through HTML to text, or <application>xmltex</application>
 	       when going from through TeX to DVI).  If
@@ -227,8 +245,8 @@
     <varlistentry>
 	    <term><option>--stringparam</option> <replaceable>paramname</replaceable>=<replaceable>paramvalue</replaceable></term>
 	    <listitem>
-	      <para>Pass a named parameter <replaceable>paramname</replaceable> 
-          with value <replaceable>paramvalue</replaceable> 
+	      <para>Pass a named parameter <replaceable>paramname</replaceable>
+          with value <replaceable>paramvalue</replaceable>
           to stylesheet from the command line.</para>
 	    </listitem>
 	  </varlistentry>
@@ -236,8 +254,8 @@
 	  <varlistentry>
 	    <term><option>--noclean</option></term>
 	    <listitem>
-	      <para>Temporary files are not deleted(their names 
-          are shown and kept in tmp directory). It could 
+	      <para>Temporary files are not deleted(their names
+          are shown and kept in tmp directory). It could
           help with analyzing problems.</para>
 	    </listitem>
 	  </varlistentry>
@@ -245,13 +263,10 @@
 	  <varlistentry>
 	    <term><option>--with-fop</option></term>
 	    <listitem>
-	      <para>Use <application>fop</application> for formatting. 
-          Default is still <application>passivetex</application>, 
-          installation doesn't check for <application>fop</application> 
-          availability. It is an experimental option, 
-          expects <application>fop</application> in 
-          specific location, could be changed manually 
-          in <command>xmlto</command> script by modification
+	      <para>Use <application>fop</application> for formatting.
+          It is an experimental option, expects <application>fop</application>
+          in specific location(detected at configured time), could be changed
+          manually in <command>xmlto</command> script by modification
           of <varname>FOP_PATH</varname></para>
 	    </listitem>
 	  </varlistentry>
@@ -259,13 +274,10 @@
 	  <varlistentry>
 	    <term><option>--with-dblatex</option></term>
 	    <listitem>
-	      <para>Use <application>dblatex</application> for formatting. 
-          Default is still <application>passivetex</application>, 
-          installation doesn't check for <application>dblatex</application> 
-          availability. It is an experimental option, 
-          expects <application>dblatex</application> in 
-          specific location, could be changed manually 
-          in <command>xmlto</command> script by modification
+	      <para>Use <application>dblatex</application> for formatting.
+        It is an experimental option, expects <application>dblatex</application>
+        in specific location(detected at configured time), could be changed
+        manually in <command>xmlto</command> script by modification
           of <varname>DBLATEX_PATH</varname></para>
 	    </listitem>
 	  </varlistentry>
@@ -287,32 +299,103 @@
 	  </varlistentry>
 	</variablelist>
       </refsect1>
-
+      <refsect1>
+	<title>Environment</title>
+	<variablelist>
+	  <varlistentry>
+	    <term><envar>XSLT_PROCESSOR</envar></term>
+	    <listitem>
+	      <para>Base name of the executable that will be used to
+	            perform the XSL-T transformation (default: <citerefentry>
+                 <refentrytitle>xsltproc</refentrytitle>
+                 <manvolnum>1</manvolnum>
+               </citerefentry>).
+         </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><envar>TMPDIR</envar></term>
+	    <listitem>
+	      <para>Directory, where to create temporary stylesheets
+	            (default: <filename>/tmp</filename>).
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+      </refsect1>
+      <refsect1>
+	<title>Diagnostics</title>
+	<variablelist>
+	  <varlistentry>
+    <term><errorcode>0</errorcode></term>
+	    <listitem>
+	      <para>Everything went fine. This is the expected exit code.</para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><errorcode>1</errorcode></term>
+	    <listitem>
+	      <para><command>xmlto</command> was called with insufficient
+	            arguments.
+         </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term><errorcode>2</errorcode></term>
+	    <listitem>
+	      <para><citerefentry>
+             <refentrytitle>mktemp</refentrytitle>
+             <manvolnum>1</manvolnum>
+           </citerefentry> failed to create a file/directory. Make sure
+           <filename>/tmp</filename> or <envar>TMPDIR</envar> is
+           writable.
+         </para>
+	    </listitem>
+	  </varlistentry>
+          <varlistentry>
+	    <term><errorcode>3</errorcode></term>
+	    <listitem>
+	      <para><command>xmlto</command> failed to find some binary on
+	            configured location. Make sure that all required packages
+                    are installed and paths in <application>xmlto</application>
+                    script are set properly.
+         </para>
+	    </listitem>
+	  </varlistentry>
+        <varlistentry>
+	    <term><errorcode>10+(Validation non-zero error code)</errorcode></term>
+	    <listitem>
+	      <para><command>xmlto</command> tried to validate a xml document, but validation failed. For better diagnostic, validation output and <application>xmllint</application> exit code is provided. Consider either fixing your document or using <option>--skip-validation</option>.
+         </para>
+	    </listitem>
+	  </varlistentry>
+        </variablelist>
+      </refsect1>
       <refsect1>
 	<title>Examples</title>
 
 	<para>To convert a DocBook XML document to PDF, use:
 
-	<screen>xmlto pdf mydoc.xml</screen></para>
+	<screen><command>xmlto pdf mydoc.xml</command></screen></para>
 
 	<para>To convert a DocBook XML document to HTML and store the
 	 resulting HTML files in a separate directory use:
 
-	<screen>xmlto -o html-dir html mydoc.xml</screen></para>
+	<screen><command>xmlto -o html-dir html mydoc.xml</command></screen></para>
 
 	<para>To convert a DocBook XML document to a single HTML file
 	 use:
 
-	<screen>xmlto html-nochunks mydoc.xml</screen></para>
+	<screen><command>xmlto html-nochunks mydoc.xml</command></screen></para>
 
 	<para>To modify the output using an XSL fragment use:
 
-	<screen>xmlto -m ulink.xsl pdf mydoc.xml</screen></para>
+	<screen><command>xmlto -m ulink.xsl pdf mydoc.xml</command></screen></para>
 
 	<para>To specify which stylesheet to use (overriding the one
 	 that the format script would choose) use:
 
-	<screen>xmlto -x mystylesheet.xsl pdf mydoc.xml</screen></para>
+	<screen><command>xmlto -x mystylesheet.xsl pdf mydoc.xml</command></screen></para>
       </refsect1>
     </refentry>
   </section>

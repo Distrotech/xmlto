@@ -1,15 +1,21 @@
 <?xml version='1.0'?> <!-- -*- xml -*- -->
-<!DOCTYPE refentry PUBLIC 
+<!DOCTYPE refentry PUBLIC
    "-//OASIS//DTD DocBook XML V4.2//EN"
    "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
 
 <refentry id='xmlif'>
   <refentryinfo>
-    <date>Oct 15 2003</date>
+    <title>xmlif</title>
+		<date>April 2009</date>
+		<productname>Linux</productname>
     <author>
       <firstname>Eric</firstname>
       <othername role="initial">S.</othername>
       <surname>Raymond</surname>
+			<affiliation>
+        <address><email>esr@snark.thyrsus.com</email></address>
+      </affiliation>
+      <contrib>Author of xmlif program</contrib>
     </author>
   </refentryinfo>
 
@@ -98,7 +104,4 @@ Always issue this text.
 
   </refsect1>
 
-  <refsect1 id='authors'><title>AUTHOR</title>
-    <para>Eric S. Raymond &lt;esr@snark.thyrsus.com&gt;.</para>
-  </refsect1>
 </refentry>
