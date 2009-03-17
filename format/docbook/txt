@@ -14,7 +14,8 @@ DEFAULT|DBLATEX)
 	  ARGS="-dump"
 	else
 	  echo >&2 "No way to convert HTML to text found."
-	  exit 1
+    echo >&2 "Try either installing text web browser(lynx/w3m/links) or use option --with-fop"
+	  exit 3
 	fi
 
 	case "$1" in

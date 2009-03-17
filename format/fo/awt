@@ -2,7 +2,7 @@ case "$USE_BACKEND" in
 DEFAULT|DBLATEX)
 	echo "Sorry, no way to convert to awt, use --with-fop option for that."
 	echo "You need to install fop package for using that option."
-	exit 1
+	exit 3
 	;;
 FOP)
 	EXT=$(basename "$0")
