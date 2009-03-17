@@ -14,7 +14,8 @@ DEFAULT|DBLATEX)
 	  OUT=output
 	  TEXINPUTS="$(dirname "$INPUT_FILE")::$SEARCHPATH"
 	  export TEXINPUTS
-	  pdfxmltex ${POSTARGS} tmp.fo >$OUT </dev/null || { cat $OUT; exit 1; }
+	  "$PDFXMLTEX_PATH" ${POSTARGS} tmp.fo >$OUT </dev/null || \
+       { cat $OUT; exit 1; }
 	  [ "$VERBOSE" -ge 2 ] && echo >&2 "First pass complete"
 	  # If there were undefined references we need to re-run pdfxmltex.
 	  if egrep '^LaTeX Warning: There were undefined references.$' $OUT \
@@ -22,9 +23,9 @@ DEFAULT|DBLATEX)
 	  || egrep '^LaTeX Warning: Label.s. may have changed\.' $OUT \
 							>/dev/null 2>&1
 	  then
-	    pdfxmltex ${POSTARGS} tmp.fo >$OUT </dev/null
+	    "$PDFXMLTEX_PATH" ${POSTARGS} tmp.fo >$OUT </dev/null
 	    [ "$VERBOSE" -ge 2 ] && echo >&2 "Second pass complete"
-	    pdfxmltex ${POSTARGS} tmp.fo >$OUT </dev/null
+	    "$PDFXMLTEX_PATH" ${POSTARGS} tmp.fo >$OUT </dev/null
 	    if [ "$VERBOSE" -ge 2 ]
 	    then
 	      echo >&2 "Third pass complete"
