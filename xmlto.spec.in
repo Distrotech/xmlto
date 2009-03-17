@@ -21,8 +21,6 @@ Requires: docbook-xsl >= 1.56.0
 # We need one of text-www-browsers(w3m,lynx,[e]links) for full functionality
 Requires: @WEBBROWSER@
 
-# For full functionality, we need passivetex.
-Requires: passivetex >= 1.11
 Requires: libxslt
 Requires: docbook-dtds
 Requires: util-linux, flex
