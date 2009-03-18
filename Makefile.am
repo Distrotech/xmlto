@@ -16,27 +16,27 @@ nobase_pkgdata_DATA = format/docbook/dvi \
 	format/docbook/txt \
 	format/docbook/htmlhelp \
 	format/docbook/javahelp \
-  format/docbook/mif \
-  format/docbook/pcl \
-  format/docbook/svg \
-  format/docbook/awt \
+	format/docbook/mif \
+	format/docbook/pcl \
+	format/docbook/svg \
+	format/docbook/awt \
 	format/fo/dvi \
 	format/fo/pdf \
 	format/fo/ps \
-  format/fo/awt \
-  format/fo/mif \
-  format/fo/pcl \
-  format/fo/svg \
-  format/fo/txt \
-  format/xhtml1/dvi \
-  format/xhtml1/fo \
-  format/xhtml1/pdf \
-  format/xhtml1/ps \
-  format/xhtml1/txt \
-  format/xhtml1/awt \
-  format/xhtml1/mif \
-  format/xhtml1/pcl \
-  format/xhtml1/svg \
+	format/fo/awt \
+	format/fo/mif \
+	format/fo/pcl \
+	format/fo/svg \
+	format/fo/txt \
+	format/xhtml1/dvi \
+	format/xhtml1/fo \
+	format/xhtml1/pdf \
+	format/xhtml1/ps \
+	format/xhtml1/txt \
+	format/xhtml1/awt \
+	format/xhtml1/mif \
+	format/xhtml1/pcl \
+	format/xhtml1/svg \
 	xmlto.mak
 
 EXTRA_DIST = xmlto.spec \
@@ -53,27 +53,27 @@ EXTRA_DIST = xmlto.spec \
 	format/docbook/txt \
 	format/docbook/xhtml \
 	format/docbook/xhtml-nochunks \
-  format/docbook/mif \
-  format/docbook/pcl \
-  format/docbook/svg \
-  format/docbook/awt \
+	format/docbook/mif \
+	format/docbook/pcl \
+	format/docbook/svg \
+	format/docbook/awt \
 	format/fo/dvi \
 	format/fo/pdf \
 	format/fo/ps \
-  format/fo/awt \
-  format/fo/mif \
-  format/fo/pcl \
-  format/fo/svg \
-  format/fo/txt \
-  format/xhtml1/dvi \
-  format/xhtml1/fo \
-  format/xhtml1/pdf \
-  format/xhtml1/ps \
-  format/xhtml1/txt \
-  format/xhtml1/awt \
-  format/xhtml1/mif \
-  format/xhtml1/pcl \
-  format/xhtml1/svg \
+	format/fo/awt \
+	format/fo/mif \
+	format/fo/pcl \
+	format/fo/svg \
+	format/fo/txt \
+	format/xhtml1/dvi \
+	format/xhtml1/fo \
+	format/xhtml1/pdf \
+	format/xhtml1/ps \
+	format/xhtml1/txt \
+	format/xhtml1/awt \
+	format/xhtml1/mif \
+	format/xhtml1/pcl \
+	format/xhtml1/svg \
 	doc/xmlto.xml \
 	doc/xmlif.xml \
 	xmlto.mak \

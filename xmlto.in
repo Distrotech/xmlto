@@ -66,6 +66,31 @@ EOF
   fi
 }
 
+# make_temp [-d] filenametag varname [message upon failure]
+#
+# Wrapper for 'varname=$(mktemp /tmp/xmlto-$filenametag.XXXXXX)'.
+#  * Remembers the temporary file's name so it can be deleted on exit
+#  * If the failure message is empty or missing, exits on failure
+make_temp () {
+  local dirflag="" prefix="@PACKAGE@"
+  [ "$1" = "-d" ] && { dirflag="-d"; shift; }
+  [ -n "$1" ] && prefix="@PACKAGE@-$1"
+
+  if eval $2='$(${MKTEMP} $dirflag "${TMPDIR:-/tmp}/${prefix}.XXXXXX")'
+  then
+    eval 'CLEANFILES[$CLEANFILE_COUNT]="${'$2'}"'
+    CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
+    return 0
+  elif [ -z "$3" ]
+  then
+    echo >&2 "mktemp failed!"
+    exit 2
+  else
+    echo >&2 "mktemp failed. $3"
+    return 2
+  fi
+}
+
 # Allow FORMAT_DIR to be over-ridden, so that we can be
 # run from the build directory.
 prefix=@prefix@
@@ -103,9 +128,7 @@ then
 
   if [ -n "$paperheight" -a -n "$paperwidth" ]
   then
-    papersizemod=$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-xsl.XXXXXX) || exit 2
-    CLEANFILES[$CLEANFILE_COUNT]="$papersizemod"
-    CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
+    make_temp xsl papersizemod "Using default paper type." &&
     cat << EOF > "$papersizemod"
 <?xml version='1.0'?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -139,9 +162,7 @@ then
 
   if [ -n "$papertype" ]
   then
-    papersizemod=$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-xsl.XXXXXX) || exit 2
-    CLEANFILES[$CLEANFILE_COUNT]="$papersizemod"
-    CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
+    make_temp xsl papersizemod "Using default paper type." &&
     cat << EOF > "$papersizemod"
 <?xml version='1.0'?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -159,10 +180,9 @@ then
 
   if [ -n "$charmap" ]
   then
-    encodingmod=$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-xsl.XXXXXX) || exit 2
-    CLEANFILES[$CLEANFILE_COUNT]="$encodingmod"
-    CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
-    cat << EOF > "$encodingmod"
+    if make_temp xsl encodingmod "Using default output encoding."
+    then
+      cat << EOF > "$encodingmod"
 <?xml version='1.0'?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 version='1.0'>
@@ -170,8 +190,9 @@ then
 <xsl:param name="man.charmap.use.subset" select="'0'"/>
 </xsl:stylesheet>
 EOF
-    XSL_MODS[$XSL_MOD_COUNT]="$encodingmod"
-    XSL_MOD_COUNT=$(($XSL_MOD_COUNT + 1))
+      XSL_MODS[$XSL_MOD_COUNT]="$encodingmod"
+      XSL_MOD_COUNT=$(($XSL_MOD_COUNT + 1))
+    fi
   fi
 fi
 
@@ -237,9 +258,7 @@ while [ "$#" -gt "0" ]; do
 	;;
   -x)
 	case "$2" in
-	-)  TMP_STYLESHEET="$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-stdin-xsl.XXXXXX)" || exit 2
-	    CLEANFILES[$CLEANFILE_COUNT]="$TMP_STYLESHEET"
-	    CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
+	-)  make_temp stdin-xsl TMP_STYLESHEET
 	    cat /dev/stdin > ${TMP_STYLESHEET}
 	    STYLESHEET=${TMP_STYLESHEET} ;;
 	/*) STYLESHEET="$2" ;;
@@ -432,9 +451,7 @@ if [ "$XSL_MOD_COUNT" -gt "0" -a -n "$STYLESHEET" ]
 then
   REAL_STYLESHEET="$STYLESHEET"
   [ "$VERBOSE" -ge 1 ] && echo >&2 "Real stylesheet: ${REAL_STYLESHEET}"
-  STYLESHEET="$(${MKTEMP} ${TMPDIR:-/tmp}/@PACKAGE@-xsl.XXXXXX)" || exit 2
-  CLEANFILES[$CLEANFILE_COUNT]="$STYLESHEET"
-  CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
+  make_temp xsl STYLESHEET
   cat << EOF > "$STYLESHEET"
 <?xml version='1.0'?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -456,9 +473,7 @@ EOF
 EOF
 fi
 
-XSLT_PROCESSED_DIR="$(${MKTEMP} -d ${TMPDIR:-/tmp}/@PACKAGE@.XXXXXX)" || exit 2
-CLEANFILES[$CLEANFILE_COUNT]="$XSLT_PROCESSED_DIR"
-CLEANFILE_COUNT=$(($CLEANFILE_COUNT + 1))
+make_temp -d "" XSLT_PROCESSED_DIR
 cd "$XSLT_PROCESSED_DIR"
 
 # Validate the input
