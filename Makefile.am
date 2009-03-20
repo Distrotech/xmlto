@@ -4,7 +4,7 @@ man1_MANS = man/man1/xmlto.1 man/man1/xmlif.1
 
 xmlif_xmlif_SOURCES = xmlif/xmlif.l
 
-nobase_pkgdata_DATA = format/docbook/dvi \
+baseformats = format/docbook/dvi \
 	format/docbook/fo \
 	format/docbook/html \
 	format/docbook/html-nochunks \
@@ -20,52 +20,18 @@ nobase_pkgdata_DATA = format/docbook/dvi \
 	format/docbook/pcl \
 	format/docbook/svg \
 	format/docbook/awt \
-	format/fo/dvi \
-	format/fo/pdf \
 	format/fo/ps \
 	format/fo/awt \
 	format/fo/mif \
 	format/fo/pcl \
 	format/fo/svg \
-	format/fo/txt \
-	format/xhtml1/dvi \
-	format/xhtml1/fo \
-	format/xhtml1/pdf \
-	format/xhtml1/ps \
-	format/xhtml1/txt \
-	format/xhtml1/awt \
-	format/xhtml1/mif \
-	format/xhtml1/pcl \
-	format/xhtml1/svg \
-	xmlto.mak
+	format/fo/txt
 
-EXTRA_DIST = xmlto.spec \
-	FAQ \
-	format/docbook/fo \
-	format/docbook/dvi \
-	format/docbook/html \
-	format/docbook/html-nochunks \
-	format/docbook/htmlhelp \
-	format/docbook/javahelp \
-	format/docbook/man \
-	format/docbook/pdf \
-	format/docbook/ps \
-	format/docbook/txt \
-	format/docbook/xhtml \
-	format/docbook/xhtml-nochunks \
-	format/docbook/mif \
-	format/docbook/pcl \
-	format/docbook/svg \
-	format/docbook/awt \
-	format/fo/dvi \
-	format/fo/pdf \
-	format/fo/ps \
-	format/fo/awt \
-	format/fo/mif \
-	format/fo/pcl \
-	format/fo/svg \
-	format/fo/txt \
-	format/xhtml1/dvi \
+passivetexformats = format/fo/dvi \
+	format/fo/pdf
+
+
+xhtml1formats = format/xhtml1/dvi \
 	format/xhtml1/fo \
 	format/xhtml1/pdf \
 	format/xhtml1/ps \
@@ -73,11 +39,9 @@ EXTRA_DIST = xmlto.spec \
 	format/xhtml1/awt \
 	format/xhtml1/mif \
 	format/xhtml1/pcl \
-	format/xhtml1/svg \
-	doc/xmlto.xml \
-	doc/xmlif.xml \
-	xmlto.mak \
-	xmlif/test/run-test \
+	format/xhtml1/svg
+
+xmliftests = xmlif/test/run-test \
 	xmlif/test/test.xml \
 	xmlif/test/result-no-condition \
 	xmlif/test/result-unrelated-condition \
@@ -87,6 +51,21 @@ EXTRA_DIST = xmlto.spec \
 	xmlif/test/result-foo \
 	xmlif/test/result-baz \
 	xmlif/test/result-bar
+
+nobase_pkgdata_DATA = $(baseformats) \
+	$(passivetexformats) \
+	$(xhtml1formats) \
+	xmlto.mak
+
+EXTRA_DIST = xmlto.spec \
+	FAQ \
+	$(baseformats) \
+	$(passivetexformats) \
+	$(xhtml1formats) \
+	$(xmliftests) \
+	doc/xmlto.xml \
+	doc/xmlif.xml \
+	xmlto.mak
 
 $(man1_MANS): $(top_srcdir)/doc/xmlto.xml $(top_srcdir)/doc/xmlif.xml
 	for xml in xmlif.xml xmlto.xml; do \
