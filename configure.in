@@ -46,6 +46,12 @@ AC_PATH_PROG([DBLATEX], [dblatex], [dblatex])
 AC_ARG_VAR([FOP], [Name and path of the `fop' program.])
 AC_PATH_PROG([FOP], [fop], [fop])
 
+AC_ARG_VAR([FOP], [Name and path of the `paperconf' (libpaper) program.])
+AC_PATH_PROG([PAPERCONF], [paperconf], [paperconf])
+
+AC_ARG_VAR([FOP], [Name and path of the `locale' program.])
+AC_PATH_PROG([LOCALE], [locale], [locale])
+
 AC_ARG_VAR([XMLTEX], [Name and path of the `xmltex' program.])
 AC_PATH_PROG([XMLTEX], [xmltex], [xmltex])
 

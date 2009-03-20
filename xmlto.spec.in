@@ -23,7 +23,7 @@ Requires: @WEBBROWSER@
 
 Requires: libxslt
 Requires: docbook-dtds
-Requires: util-linux, flex
+Requires: util-linux, flex, which
 
 %description
 This is a package for converting XML files to various formats using XSL

@@ -118,13 +118,15 @@ trap -- 'cd /; [ -z "${CLEANFILES[*]}" ] || rm -rf "${CLEANFILES[@]}"' EXIT
 
 XSLTOPTS=
 SEARCHPATH=
+PAPERCONF_PATH=@PAPERCONF@
+LOCALE_PATH=@LOCALE@
 
 # Try to setup papersize using libpaper first ...
-if [ -x /usr/bin/paperconf ]
+if [ -n "`which "$PAPERCONF_PATH" 2>/dev/null`" ]
 then
-  papername=`paperconf -n`
-  paperheight=`paperconf -mh | sed 's/ //g'`
-  paperwidth=`paperconf -mw | sed 's/ //g'`
+  papername=`"$PAPERCONF_PATH" -n`
+  paperheight=`"$PAPERCONF_PATH" -mh | sed 's/ //g'`
+  paperwidth=`"$PAPERCONF_PATH" -mw | sed 's/ //g'`
 
   if [ -n "$paperheight" -a -n "$paperwidth" ]
   then
@@ -151,10 +153,10 @@ EOF
   fi
 
 # ... or use magic paper size, based on LC_PAPER
-elif [ -x /usr/bin/locale ]
+elif [ -n "`which "$LOCALE_PATH" 2>/dev/null`" ]
 then
   # For paper sizes we know about, specify them.
-  h=$(locale LC_PAPER 2>/dev/null | head -n 1)
+  h=$("$LOCALE_PATH" LC_PAPER 2>/dev/null | head -n 1)
   if [ "$h" = "297" ]
   then
     papertype=A4
@@ -174,9 +176,9 @@ EOF
 fi
 
 # Magic encoding, based on locale
-if [ -x /usr/bin/locale ]
+if [ -n "`which "$LOCALE_PATH" 2>/dev/null`" ]
 then
-  charmap=$(locale charmap 2>/dev/null)
+  charmap=$("$LOCALE_PATH" charmap 2>/dev/null)
 
   if [ -n "$charmap" ]
   then
@@ -223,15 +225,16 @@ XMLTEX_PATH=@XMLTEX@
 PDFXMLTEX_PATH=@PDFXMLTEX@
 
 #check if we could use fop/dblatex backend as default(if not, use passivetex)
-if [ x"$USE_BACKEND" = xFOP ] && [ ! -x "$FOP_PATH" ]
+if [ x"$USE_BACKEND" = xFOP ] && [ -z "`which "$FOP_PATH" 2>/dev/null`" ]
 then
-  echo >&2 Warning: fop not found or not executable at path $FOP_PATH.
+  echo >&2 Warning: fop not found or not executable.
   echo >&2 Using default backend...
   USE_BACKEND=DEFAULT
 fi
-if [ x"$USE_BACKEND" = xDBLATEX ] && [ ! -x "$DBLATEX_PATH" ]
+if [ x"$USE_BACKEND" = xDBLATEX ] && \
+   [ -z "`which "$DBLATEX_PATH" 2>/dev/null`" ]
 then
-  echo >&2 Warning: dblatex not found or not executable at path $DBLATEX_PATH.
+  echo >&2 Warning: dblatex not found or not executable.
   echo >&2 Using default backend...
   USE_BACKEND=DEFAULT
 fi
@@ -323,21 +326,23 @@ while [ "$#" -gt "0" ]; do
 	;;
 	--with-fop)
 	##use fop instead of passivetex where possible
-	if [ -x "$FOP_PATH" ]; then
-		USE_BACKEND="FOP"
-	else
-		echo >&2 Warning: fop not found or not executable at path $FOP_PATH.
+	if [ -z "`which "$FOP_PATH" 2>/dev/null`" ]
+  then
+		echo >&2 Warning: fop not found or not executable.
 		echo >&2 Using default backend...
+	else
+		USE_BACKEND="FOP"
 	fi
 	shift
 	;;
   --with-dblatex)
   ##use dblatex instead of passivetex where possible
-	if [ -x "$DBLATEX_PATH" ]; then
-		USE_BACKEND="DBLATEX"
-	else
-		echo >&2 Warning: dblatex not found or not executable at path $DBLATEX_PATH.
+	if [ -z "`which "$DBLATEX_PATH" 2>/dev/null`" ]
+  then
+		echo >&2 Warning: dblatex not found or not executable.
 		echo >&2 Using default backend...
+	else
+		USE_BACKEND="DBLATEX"
 	fi
   shift
   ;;

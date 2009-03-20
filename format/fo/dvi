@@ -6,7 +6,7 @@ post-process)
   then
     echo >&2 "Post-process XSL-FO to DVI"
   fi
-  if [ ! -x $XMLTEX_PATH ]
+  if [ -z "`which $XMLTEX_PATH 2>/dev/null`" ]
   then
     echo >&2 "Can't process, xmltex tool not found at $XMLTEX_PATH."
     exit 3

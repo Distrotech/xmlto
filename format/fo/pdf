@@ -8,7 +8,7 @@ DEFAULT|DBLATEX)
 	  then
 	    echo >&2 "Post-process XSL-FO to PDF"
 	  fi
-	  if [ ! -x $PDFXMLTEX_PATH ]
+	  if [ -z "`which $PDFXMLTEX_PATH 2>/dev/null`" ]
 	  then
 	    echo >&2 "Can't process, pdfxmltex tool not found at $PDFXMLTEX_PATH."
 	    exit 3
