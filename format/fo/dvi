@@ -6,6 +6,11 @@ post-process)
   then
     echo >&2 "Post-process XSL-FO to DVI"
   fi
+  if [ ! -x $XMLTEX_PATH ]
+  then
+    echo >&2 "Can't process, xmltex tool not found at $XMLTEX_PATH."
+    exit 3
+  fi
   # Work around stupid tetex bug with '_' in filenames
   # Also work around stupid tetex limitation with long lines (bug #101055)
   sed -e "s,/>,\n/>,g" "$XSLT_PROCESSED" >tmp.fo

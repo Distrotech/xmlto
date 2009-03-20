@@ -8,6 +8,11 @@ DEFAULT|DBLATEX)
 	  then
 	    echo >&2 "Post-process XSL-FO to PDF"
 	  fi
+	  if [ ! -x $PDFXMLTEX_PATH ]
+	  then
+	    echo >&2 "Can't process, pdfxmltex tool not found at $PDFXMLTEX_PATH."
+	    exit 3
+	  fi
 	  # Work around stupid tetex bug with '_' in filenames
 	  # Also work around stupid tetex limitation with long lines (bug #101055)
 	  sed -e "s,/>,\n/>,g" "$XSLT_PROCESSED" >tmp.fo
