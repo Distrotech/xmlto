@@ -2,7 +2,7 @@ Summary: A tool for converting XML files to various formats.
 Name: xmlto
 Version: @VERSION@
 Release: 0.1
-License: GPLv2
+License: GPLv2+
 Group: Applications/System
 #Older versions up to xmlto-0.0.20
 #URL: http://cyberelk.net/tim/xmlto/

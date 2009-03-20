@@ -7,185 +7,129 @@ AC_PROG_CC
 AM_PROG_CC_C_O
 AM_PROG_LEX
 
-AC_MSG_CHECKING(for mktemp program)
-MKTEMP=mktemp
-AC_ARG_WITH(mktemp, [  --with-mktemp=MKTEMP    name of the mktemp program],
-  MKTEMP=$withval)
-AC_MSG_RESULT($MKTEMP)
 
-AC_MSG_CHECKING(for GNU find program)
-FIND=find
-AC_ARG_WITH(find, [  --with-find=FIND        name of the GNU find program],
-  FIND=$withval)
-AC_MSG_RESULT($FIND)
+dnl
+dnl tools
+dnl
 
-BASH=
-AC_ARG_WITH(bash, [  --with-bash=BASH        name of the bash program],
-  BASH=$withval)
-if test "x$BASH" = x; then
-  AC_PATH_PROGS(BASH, "bash")
-  if test "x$BASH" = x; then
-    BASH=/bin/bash
-    AC_MSG_RESULT(Path to bash not found automatically - using $BASH)
-  fi
-else
-  AC_MSG_CHECKING(for bash)
-  AC_MSG_RESULT($BASH)
-fi
+AC_ARG_VAR([MKTEMP], [Name of the `mktemp' program.])
+AC_CHECK_PROG([MKTEMP], [mktemp],, [mktemp])
 
-DBLATEX=
-AC_ARG_WITH(dblatex, [  --with-dblatex=DBLATEX        name of the dblatex program],
-  DBLATEX=$withval)
-if test "x$DBLATEX" = x; then
-  AC_PATH_PROGS(DBLATEX, "dblatex")
-  if test "x$DBLATEX" = x; then
-    DBLATEX=/usr/bin/dblatex
-    AC_MSG_RESULT(Path to dblatex not found automatically - using $DBLATEX)
-  fi
-else
-  AC_MSG_CHECKING(for dblatex)
-  AC_MSG_RESULT($DBLATEX)
-fi
+AC_ARG_VAR([FIND], [Name of the GNU `find' program.])
+AC_CHECK_PROG([FIND], [find],, [find] )
 
-FOP=
-AC_ARG_WITH(fop, [  --with-fop=FOP        name of the fop program],
-  FOP=$withval)
-if test "x$FOP" = x; then
-  AC_PATH_PROGS(FOP, "fop")
-  if test "x$FOP" = x; then
-    FOP=/usr/bin/fop
-    AC_MSG_RESULT(Path to fop not found automatically - using $FOP)
-  fi
-else
-  AC_MSG_CHECKING(for fop)
-  AC_MSG_RESULT($FOP)
-fi
+BASH=/bin/bash
+AC_ARG_VAR([BASH], [Name and path of the GNU `bash' shell.])
+AC_PATH_PROG([BASH], [bash], [/bin/bash])
 
-XMLTEX=
-AC_ARG_WITH(xmltex, [  --with-xmltex=XMLTEX        name of the xmltex program],
-  XMLTEX=$withval)
-if test "x$XMLTEX" = x; then
-  AC_PATH_PROGS(XMLTEX, "xmltex")
-  if test "x$XMLTEX" = x; then
-    XMLTEX=/usr/bin/xmltex
-    AC_MSG_RESULT(Path to xmltex not found automatically - using $XMLTEX)
-  fi
-else
-  AC_MSG_CHECKING(for xmltex)
-  AC_MSG_RESULT($XMLTEX)
-fi
+AC_ARG_VAR([GETOPT], [Name of the `getopt' program (requires longopt support).])
+AC_CHECK_PROG([GETOPT], [getopt],, [getopt])
 
-PDFXMLTEX=
-AC_ARG_WITH(pdfxmltex, [  --with-pdfxmltex=PDFXMLTEX   name of the pdfxmltex program],
-  PDFXMLTEX=$withval)
-if test "x$PDFXMLTEX" = x; then
-  AC_PATH_PROGS(PDFXMLTEX, "pdfxmltex")
-  if test "x$PDFXMLTEX" = x; then
-    XMLTEX=/usr/bin/pdfxmltex
-    AC_MSG_RESULT(Path to pdfxmltex not found automatically - using $PDFXMLTEX)
-  fi
-else
-  AC_MSG_CHECKING(for pdfxmltex)
-  AC_MSG_RESULT($PDFXMLTEX)
-fi
-
-LYNX=
-AC_ARG_WITH(lynx, [  --with-lynx=LYNX      path to the lynx program],
-  LYNX=$withval)
-if test "x$LYNX" = x; then
-  AC_PATH_PROGS(LYNX, "lynx")
-  if test "x$LYNX" = x; then
-    LYNX=/usr/bin/lynx
-    AC_MSG_RESULT(Path to lynx not found automatically - using $LYNX)
-  fi
-else
-  AC_MSG_CHECKING(for lynx)
-  AC_MSG_RESULT($LYNX)
-fi
-
-LINKS=
-AC_ARG_WITH(links, [  --with-links=LINKS     path to the links program],
-  LINKS=$withval)
-if test "x$LINKS" = x; then
-  AC_PATH_PROGS(LINKS, "links")
-  if test "x$LINKS" = x; then
-    LINKS=/usr/bin/links
-    AC_MSG_RESULT(Path to [e]links not found automatically - using $LINKS)
-  fi
-else
-  AC_MSG_CHECKING(for links)
-  AC_MSG_RESULT($LINKS)
-fi
-
-W3M=
-AC_ARG_WITH(w3m, [  --with-w3m=W3M     path to the w3m program],
-  W3M=$withval)
-if test "x$W3M" = x; then
-  AC_PATH_PROGS(W3M, "w3m")
-  if test "x$W3M" = x; then
-    LINKS=/usr/bin/w3m
-    AC_MSG_RESULT(Path to w3m not found automatically - using $W3M)
-  fi
-else
-  AC_MSG_CHECKING(for w3m)
-  AC_MSG_RESULT($W3M)
-fi
-
-BACKEND="DEFAULT"
-AC_ARG_WITH(backend, [  --with-backend=BACKARG      default backend(passivetex,fop,dblatex)],
-  BACKARG=$withval)
-if test "x$BACKARG" = xfop; then
-  BACKEND="FOP"
-fi
-if test "x$BACKARG" = xdblatex; then
-  BACKEND="DBLATEX"
-fi
-
-WEBBROWSER="w3m"
-AC_ARG_WITH(webbrowser, [  --with-webbrowser=BROWSER      default webbrowser(w3m,lynx,links,elinks,any)],
-  BROWSER=$withval)
-if test "x$BROWSER" = xlinks; then
-  WEBBROWSER="links"
-fi
-if test "x$BROWSER" = xelinks; then
-  WEBBROWSER="elinks"
-fi
-if test "x$BROWSER" = xlynx; then
-  WEBBROWSER="lynx"
-fi
-if test "x$BROWSER" = xany; then
-  WEBBROWSER="text-www-browser"
-fi
-
-
-AC_MSG_CHECKING(for getopt program)
-GETOPT=getopt
-AC_ARG_WITH(getopt, [  --with-getopt=GETOPT    name of the getopt program],
-  GETOPT=$withval)
-AC_MSG_RESULT($GETOPT)
-
-AC_MSG_CHECKING(whether getopt handles long options)
+AC_MSG_CHECKING([for long options support in $GETOPT])
 opts=`$GETOPT --longoptions=help x -x`
 if test x"$opts" != x" -x --"; then
-   AC_MSG_ERROR([no
+        AC_MSG_ERROR([no
 
 You need getopt from <http://huizen.dds.nl/~frodol/getopt.html>, or
 else some other implementation that supports --longoptions.
 ])
 fi
-AC_MSG_RESULT(yes)
+AC_MSG_RESULT([yes])
 
-AC_SUBST(MKTEMP)
-AC_SUBST(FIND)
-AC_SUBST(BASH)
-AC_SUBST(GETOPT)
-AC_SUBST(FOP)
-AC_SUBST(DBLATEX)
-AC_SUBST(XMLTEX)
-AC_SUBST(PDFXMLTEX)
-AC_SUBST(LYNX)
-AC_SUBST(LINKS)
-AC_SUBST(W3M)
+dnl
+dnl toolchains
+dnl
+
+AC_ARG_VAR([DBLATEX], [Name and path of the `dblatex' program.])
+AC_PATH_PROG([DBLATEX], [dblatex], [dblatex])
+
+AC_ARG_VAR([FOP], [Name and path of the `fop' program.])
+AC_PATH_PROG([FOP], [fop], [fop])
+
+AC_ARG_VAR([XMLTEX], [Name and path of the `xmltex' program.])
+AC_PATH_PROG([XMLTEX], [xmltex], [xmltex])
+
+AC_ARG_VAR([PDFXMLTEX], [Name and path of the `pdfxmltex' program.])
+AC_PATH_PROG([PDFXMLTEX], [pdfxmltex], [pdfxmltex])
+
+dnl
+dnl default backend
+dnl
+
+AC_ARG_WITH(
+        [backend],
+        AC_HELP_STRING(
+                [--with-backend=@<:@passivetex|fop|dblatex@:>@],
+                [The default processing backend @<:@default=DEFAULT@:>@]
+        ),
+        [
+         case "x$withval" in
+                xfop)
+                        BACKEND="FOP"
+                ;;
+                xdblatex)
+                        BACKEND="DBLATEX"
+                ;;
+                *)
+                        BACKEND="DEFAULT"
+                ;;
+         esac
+        ],
+        [BACKEND="DEFAULT"]
+)
+
+AC_MSG_CHECKING([for default backend])
+AC_MSG_RESULT([$BACKEND])
+
+dnl
+dnl web browsers
+dnl
+
+AC_ARG_VAR([LYNX], [Name and path of the `lynx' program.])
+AC_PATH_PROG([LYNX], [lynx], [lynx])
+
+AC_ARG_VAR([LINKS], [Name and path of the `links' program.])
+AC_PATH_PROG([LINKS], [links], [links])
+
+AC_ARG_VAR([W3M], [Name and path of the `w3m' program.])
+AC_PATH_PROG([W3M], [w3m], [w3m])
+
+dnl
+dnl default webrowser
+dnl
+
+AC_ARG_WITH(
+        [webbrowser],
+        AC_HELP_STRING(
+                [--with-webbrowser=@<:@w3m|lynx|links|any@:>@],
+                [The default processing backend @<:@default=w3m@:>@]
+        ),
+        [
+         case "x$withval" in
+                xlinks)
+                        WEBBROWSER="links"
+                ;;
+                xlynx)
+                        WEBBROWSER="lynx"
+                ;;
+                xany)
+                        WEBBROWSER="text-www-browser"
+                ;;
+                *)
+                        WEBBROWSER="w3m"
+                ;;
+         esac
+        ],
+        [WEBBROWSER="w3m"]
+)
+
+AC_MSG_CHECKING([for default web browser])
+AC_MSG_RESULT([$WEBBROWSER])
+
+dnl
+dnl done
+dnl
+
 AC_SUBST(BACKEND)
 AC_SUBST(WEBBROWSER)
 AC_CONFIG_FILES(Makefile xmlto xmlto.spec)
