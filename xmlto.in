@@ -294,8 +294,8 @@ while [ "$#" -gt "0" ]; do
   --extensions)
 	# Turn on extensions for whatever tools we are using.
 	# XSLTOPTS will be done later(once we will know which
-  # tool is used for processing)
-  EXTENSIONS=1
+	# tool is used for processing)
+	EXTENSIONS=1
 	XSLTOPTS="$XSLTOPTS --param use.extensions '1'"
 	shift
 	;;
@@ -324,10 +324,10 @@ while [ "$#" -gt "0" ]; do
 	trap -- 'cd /; [ -z "${CLEANFILES[*]}" ] || echo "${CLEANFILES[@]}"' EXIT
 	shift
 	;;
-	--with-fop)
+  --with-fop)
 	##use fop instead of passivetex where possible
 	if [ -z "`which "$FOP_PATH" 2>/dev/null`" ]
-  then
+	then
 		echo >&2 Warning: fop not found or not executable.
 		echo >&2 Using default backend...
 	else
@@ -336,16 +336,16 @@ while [ "$#" -gt "0" ]; do
 	shift
 	;;
   --with-dblatex)
-  ##use dblatex instead of passivetex where possible
+	##use dblatex instead of passivetex where possible
 	if [ -z "`which "$DBLATEX_PATH" 2>/dev/null`" ]
-  then
+	then
 		echo >&2 Warning: dblatex not found or not executable.
 		echo >&2 Using default backend...
 	else
 		USE_BACKEND="DBLATEX"
 	fi
-  shift
-  ;;
+	shift
+	;;
   --)
 	shift
 	break
@@ -408,10 +408,10 @@ esac
 rootel=$(echo "xpath *" | xmllint --shell $INPUT_FILE 2> /dev/null | head -n 3 |tail -n 1 | cut -f 4 -d " " )
 
 case $(echo $rootel) in
-fo:root)
+  fo:root)
 	SOURCE_FORMAT="fo"
 	;;
-html)
+  html)
 	SOURCE_FORMAT="xhtml1"
 	;;
 esac
