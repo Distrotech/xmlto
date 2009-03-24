@@ -1,16 +1,32 @@
 2009-03-16  Ondrej Vasik <ovasik@redhat.com>
 	* configure.in: Make tools/program paths detection
-		automated, new options for hardcoding those paths
-		and for selection of default backend
-	* format/xhtml1: new backends for xhtml1 source format
+		automated, could be overriden by envvar settings
+		passed to configure script. Added option for
+		choosing default backend and webbrowser (for
+		requirements)
+	* format/xhtml1: new backends for xhtml1 source format,
+		supports output formats awt, dvi, fo, mif, pcl, pdf,
+		ps, svg and txt
+	*	format/*:	use configured tools paths, autodetect
+		missing tools, correctly exit if tool is not
+		available
 	* xmlto.in: fixed libpaper cleaning up(deb #491390),
 		fixed --stringparam option functionality, xmllint
 		validity check now uses --noent option (deb #516253),
 		added some messages to easier detection of troubles,
-		use xhtml1 source format
+		use xhtml1 source format, consolidated error codes
+		(see docs), check for missing fop/dblatex and fallback
+		to passivetex if not found
 	* xmlto.spec.in: split package, two subpackages added:
 		tex subpackage for backends with passivetex requirements,
-		xhtml subpackage for xhtml1 source format.
+		xhtml subpackage for xhtml1 source format
+	* doc/xmlto.xml: fixed compilation warnings, documented
+		exit error codes and changes
+	* doc/xmlif.xml: fixed compilation warnings
+	* xmlif/* : now licensed under GPLv2+
+	* various files: fixed wrong FSF address
+	* FAQ: Fixed obsolete informations
+	* Makefile.am: indentation and consolidation fixes
 
 2008-06-20  Ondrej Vasik <ovasik@redhat.com>
 	* configure.in: Version 0.0.21 (stable).

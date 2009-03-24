@@ -42,6 +42,12 @@ AC_PATH_PROG([PAPERCONF], [paperconf], [paperconf])
 AC_ARG_VAR([LOCALE], [Name and path of the `locale' program.])
 AC_PATH_PROG([LOCALE], [locale], [locale])
 
+AC_ARG_VAR([XMLLINT], [Name and path of the `xmllint' program.])
+AC_PATH_PROG([XMLLINT], [xmllint], [xmllint])
+
+AC_ARG_VAR([XSLTPROC], [Name and path of the `xsltproc' program.])
+AC_PATH_PROG([XSLTPROC], [xsltproc], [xsltproc])
+
 dnl
 dnl toolchains
 dnl

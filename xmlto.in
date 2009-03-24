@@ -120,6 +120,8 @@ XSLTOPTS=
 SEARCHPATH=
 PAPERCONF_PATH=@PAPERCONF@
 LOCALE_PATH=@LOCALE@
+XMLLINT_PATH=@XMLLINT@
+XSLTPROC_PATH=@XSLTPROC@
 
 # Try to setup papersize using libpaper first ...
 if [ -n "`which "$PAPERCONF_PATH" 2>/dev/null`" ]
@@ -227,15 +229,15 @@ PDFXMLTEX_PATH=@PDFXMLTEX@
 #check if we could use fop/dblatex backend as default(if not, use passivetex)
 if [ x"$USE_BACKEND" = xFOP ] && [ -z "`which "$FOP_PATH" 2>/dev/null`" ]
 then
-  echo >&2 Warning: fop not found or not executable.
-  echo >&2 Using default backend...
+  echo >&2 "@PACKAGE@: Warning: fop not found or not executable."
+  echo >&2 "@PACKAGE@: Using default backend..."
   USE_BACKEND=DEFAULT
 fi
 if [ x"$USE_BACKEND" = xDBLATEX ] && \
    [ -z "`which "$DBLATEX_PATH" 2>/dev/null`" ]
 then
-  echo >&2 Warning: dblatex not found or not executable.
-  echo >&2 Using default backend...
+  echo >&2 "@PACKAGE@: Warning: dblatex not found or not executable."
+  echo >&2 "@PACKAGE@: Using default backend..."
   USE_BACKEND=DEFAULT
 fi
 
@@ -405,7 +407,7 @@ esac
 #     sed -e 's/^<?[^?>]*?>//g' -e 's/^<![^>]*>//g' -e 's/^<\([^ ]*\).*$/\1/')
 
 # Seems reasonable fix the file command and teach it to identify the DTD/Schema but this is faster to write:
-rootel=$(echo "xpath *" | xmllint --shell $INPUT_FILE 2> /dev/null | head -n 3 |tail -n 1 | cut -f 4 -d " " )
+rootel=$(echo "xpath *" | "$XMLLINT_PATH" --shell "$INPUT_FILE" 2> /dev/null | head -n 3 |tail -n 1 | cut -f 4 -d " " )
 
 case $(echo $rootel) in
   fo:root)
@@ -435,7 +437,7 @@ then
 fi
 
 # Ask the format script what stylesheet to use.
-XSLT_PROCESSOR=xsltproc # We only know about xsltproc right now.
+XSLT_PROCESSOR="$XSLTPROC_PATH" # We only know about xsltproc right now.
 export XSLT_PROCESSOR
 export W3M_PATH
 export LINKS_PATH
@@ -484,21 +486,30 @@ cd "$XSLT_PROCESSED_DIR"
 # Validate the input
 if [ "$SKIP_VALIDATION" -eq 0 ] && [ "$SOURCE_FORMAT" != "fo" ]
 then
-  VALIDATION="${XSLT_PROCESSED_DIR}/validation-errors"
-  [ "$VERBOSE" -ge 1 ] && \
-  echo >&2 \
-     "xmllint --noout --nonet --xinclude --postvalid --noent \"$INPUT_FILE\""
-  xmllint --noout --nonet --xinclude --postvalid --noent \
-     "$INPUT_FILE" 2>"${VALIDATION}"
-  xmllint_status=$?
-  if [ $xmllint_status -ne 0 ]
+  #do we have xmllint validation tool?
+  if [ -z "`which "$XMLLINT_PATH" 2>/dev/null`" ]
   then
-    echo >&2 "xmlto: input does not validate (status ${xmllint_status})"
-    echo >&2 "xmlto: Fix input document syntax or use --skip-validation option"
-    cat >&2 "${VALIDATION}"
-    exit $(($xmllint_status + 10))
+    echo >&2 "@PACKAGE@: xmllint validation tool not found or not executable."
+    echo >&2 "@PACKAGE@: Skipping validation... " \
+             "Please make sure xmllint is installed."
+  else
+    VALIDATION="${XSLT_PROCESSED_DIR}/validation-errors"
+
+    [ "$VERBOSE" -ge 1 ] && \
+    echo >&2 \
+       "$XMLLINT_PATH --noout --nonet --xinclude --postvalid --noent \"$INPUT_FILE\""
+    "$XMLLINT_PATH" --noout --nonet --xinclude --postvalid --noent "$INPUT_FILE" 2>"${VALIDATION}"
+    xmllint_status=$?
+
+    if [ $xmllint_status -ne 0 ]
+    then
+      echo >&2 "@PACKAGE@: $INPUT_FILE does not validate (status ${xmllint_status})"
+      echo >&2 "@PACKAGE@: Fix document syntax or use --skip-validation option"
+      cat >&2 "${VALIDATION}"
+      exit $(($xmllint_status + 10))
+    fi
+    rm -f "${VALIDATION}"
   fi
-  rm -f "${VALIDATION}"
 fi
 
 if [ -z "${STYLESHEET}" ]
@@ -506,6 +517,14 @@ then
   # No stylesheet: no XSL-T processing to do.
   XSLT_PROCESSED="$INPUT_FILE"
 else
+
+  #do we have xsltproc tool?
+  if [ -z "`which "$XSLTPROC_PATH" 2>/dev/null`" ]
+  then
+    echo >&2 "@PACKAGE@: Can't continue, xsltproc tool not found or not executable."
+    exit 3
+  fi
+
   [ "$VERBOSE" -ge 1 ] && echo >&2 "Stylesheet: ${STYLESHEET}"
   XSLT_PROCESSED="$XSLT_PROCESSED_DIR/$(basename "${INPUT_FILE%.*}").proc"
 
@@ -523,14 +542,14 @@ else
 
   XSLTOPTS="$XSLTPARAMS $XSLTOPTS"
   [ "$VERBOSE" -ge 1 ] && \
-   echo -e >&2 "xsltproc${XSLTOPTS} ${XSLTSHOWPATH}\\\\\n -o \"$XSLT_PROCESSED\" \\\\\n $STYLESHEET \\\\\n \"$INPUT_FILE\""
+   echo -e >&2 "$XSLTPROC_PATH ${XSLTOPTS} ${XSLTSHOWPATH}\\\\\n -o \"$XSLT_PROCESSED\" \\\\\n $STYLESHEET \\\\\n \"$INPUT_FILE\""
 
   if [ -z "$XSLTWITHPATH" ]
   then
-    xsltproc $XSLTOPTS -o "$XSLT_PROCESSED" "$STYLESHEET" "$INPUT_FILE"
+    "$XSLTPROC_PATH" $XSLTOPTS -o "$XSLT_PROCESSED" "$STYLESHEET" "$INPUT_FILE"
   else
-    xsltproc $XSLTOPTS $XSLTWITHPATH "$XSLTPATH" -o "$XSLT_PROCESSED" \
-      "$STYLESHEET" "$INPUT_FILE"
+    "$XSLTPROC_PATH" $XSLTOPTS $XSLTWITHPATH "$XSLTPATH" \
+      -o "$XSLT_PROCESSED" "$STYLESHEET" "$INPUT_FILE"
   fi
 
   if [ $? == 4 ]
@@ -538,7 +557,7 @@ else
     XSLTOPTS="${XSLTOPTS} --catalogs"
     [ "$VERBOSE" -ge 1 ] && \
       echo >&2 "No XML Catalogs?  Trying again with --catalogs.."
-    xsltproc $XSLTOPTS -o "$XSLT_PROCESSED" "$STYLESHEET" "$INPUT_FILE"
+    "$XSLTPROC_PATH" $XSLTOPTS -o "$XSLT_PROCESSED" "$STYLESHEET" "$INPUT_FILE"
   fi
 
   if [ $? -gt 0 ]

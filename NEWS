@@ -2,17 +2,26 @@ Xmlto news
 ----------
 0.0.22 (stable)
   - added experimental support for xhtml1 source format
-  (output formats are dvi, fo, pdf, ps, txt)
+  (output formats are awt, dvi, fo, mif, pcl,  pdf, ps,
+  svg, txt)
   - create tex and xhtml subpackage in spec file to reduce
   requirements for main package
-  - automated detection of programs path, new configure
-  options for hardcoding paths when programs not present
-  in configure time
+  - automated detection of programs path in configure,
+  program/utility path could be passed to configure by
+  variable, allowed selection of default backend and
+  default webbrowser (just for requirements at the moment)
+  - check for missing tools/programs, fail if tool is not
+  available
   - fixed libpaper cleaning up(debian #491390)
   - xmllint validity check now with noent option(debian
     #516253)
   - fixed --stringparam option
-  - added some messages to easier detection of troubles
+  - added some messages to easier detection of troubles,
+  used different error codes for various situations(see
+  docs)
+  - fixed FSF addresses, xmlif now licensed under GPLv2+
+  (was GPL+, various indentation fixes, fixed documentation
+  compilation warnings
 
 0.0.21 (stable)
   - added experimental support for dblatex(needs installed
