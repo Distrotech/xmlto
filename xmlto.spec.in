@@ -96,6 +96,15 @@ rm -rf %{buildroot}
 %{_datadir}/xmlto/format/xhtml1
 
 %changelog
+* Wed Mar 25 2009 Ondrej Vasik <ovasik@redhat.com>
+- New version 0.0.22
+- added xhtml1 source format support
+- autodetection for tools/program paths, consolidated
+  error code handling
+- fixed libpaper cleanup, validation check now uses
+  --noent and --nonet option
+- fixed broken --stringparam option
+
 * Fri Jun 20 2008 Ondrej Vasik <ovasik@redhat.com>
 - New version 0.0.21
 - added dblatex experimental support
