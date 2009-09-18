@@ -1,5 +1,13 @@
 Xmlto news
 ----------
+0.0.23 (stable)
+  - add support for detection of tail and gnu cp, do
+    not hardcode /bin/bash initial value
+  - use those detected binaries instead of previously
+    hardcoded ones
+  - use `type -t` bash shell builtin instead of `which`
+    utility for detection of file availability
+
 0.0.22 (stable)
   - added experimental support for xhtml1 source format
   (output formats are awt, dvi, fo, mif, pcl,  pdf, ps,

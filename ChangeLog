@@ -1,3 +1,15 @@
+2009-09-18  Ondrej Vasik <ovasik@redhat.com>
+	* configure.in:  Do not hardcode /bin/bash default
+		path, add support for detection of tail and gnu cp
+		binary (all changes from Ben Walton, maintainer of
+		xmlto under Solaris)
+	* xmlto.in: use detected tail command, export gnu cp
+		location for usage in format backends, use `type -t`
+		instead of `which` for detection of file availability.
+	*	format/*:	use detected gnu cp instead of hardcoded
+		cp, use `type -t` instead of `which` for detection
+		of file availability.
+
 2009-03-16  Ondrej Vasik <ovasik@redhat.com>
 	* configure.in: Make tools/program paths detection
 		automated, could be overriden by envvar settings
