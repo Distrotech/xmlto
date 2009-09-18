@@ -107,6 +107,9 @@ AC_PATH_PROG([LINKS], [links], [links])
 AC_ARG_VAR([W3M], [Name and path of the `w3m' browser.])
 AC_PATH_PROG([W3M], [w3m], [w3m])
 
+AC_ARG_VAR([TAIL], [Name and path of a tail binary that supports -n.])
+AC_PATH_PROG([TAIL], [tail], [tail])
+
 dnl
 dnl default webrowser
 dnl
