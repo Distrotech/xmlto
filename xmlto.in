@@ -245,6 +245,7 @@ fi
 LINKS_PATH=@LINKS@
 W3M_PATH=@W3M@
 LYNX_PATH=@LYNX@
+GCP_PATH=@GCP@
 
 # Process any options
 ARGS=$(${GETOPT} \
@@ -441,6 +442,7 @@ fi
 XSLT_PROCESSOR="$XSLTPROC_PATH" # We only know about xsltproc right now.
 export XSLT_PROCESSOR
 export W3M_PATH
+export GCP_PATH
 export LINKS_PATH
 export LYNX_PATH
 export FOP_PATH

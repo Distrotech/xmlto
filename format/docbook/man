@@ -8,6 +8,6 @@ stylesheet)
   ;;
 post-process)
   [ -e "$XSLT_PROCESSED" ] && rm "$XSLT_PROCESSED"
-  cp -R -P -p -- * "$OUTPUT_DIR" 2>/dev/null
+  ${GCP_PATH:-cp} -R -P -p -- * "$OUTPUT_DIR" 2>/dev/null
   ;;
 esac

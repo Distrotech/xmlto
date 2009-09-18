@@ -34,6 +34,6 @@ post-process)
       [ "$VERBOSE" -ge 3 ] && cat $OUT
     fi
   fi
-  cp -R -P -p -- *.dvi "$OUTPUT_DIR/$(basename "${XSLT_PROCESSED%.*}").dvi"
+  ${GCP_PATH:-cp} -R -P -p -- *.dvi "$OUTPUT_DIR/$(basename "${XSLT_PROCESSED%.*}").dvi"
   ;;
 esac

@@ -37,7 +37,7 @@ DEFAULT|DBLATEX)
 	      [ "$VERBOSE" -ge 3 ] && cat $OUT
 	    fi
 	  fi
-	  cp -R -P -p -- *.pdf "$OUTPUT_DIR/$(basename "${XSLT_PROCESSED%.*}").pdf"
+	  ${GCP_PATH:-cp} -R -P -p -- *.pdf "$OUTPUT_DIR/$(basename "${XSLT_PROCESSED%.*}").pdf"
 	  ;;
 	esac
 	;;

@@ -110,6 +110,9 @@ AC_PATH_PROG([W3M], [w3m], [w3m])
 AC_ARG_VAR([TAIL], [Name and path of a tail binary that supports -n.])
 AC_PATH_PROG([TAIL], [tail], [tail])
 
+AC_ARG_VAR([GCP], [Name and path of a GNU cp binary (need at least -P)])
+AC_PATH_PROG([GCP], [cp], [cp])
+
 dnl
 dnl default webrowser
 dnl
