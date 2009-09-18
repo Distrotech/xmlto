@@ -1,14 +1,14 @@
 case "$USE_BACKEND" in
 DEFAULT|DBLATEX)
-  if [ -n "`which "$W3M_PATH" 2>/dev/null`" ]
+  if [ -n "`type -t $W3M_PATH`" ]
   then
     CONVERT="$W3M_PATH"
     ARGS="-T text/html -dump"
-  elif [ -n "`which "$LYNX_PATH" 2>/dev/null`" ]
+  elif [ -n "`type -t $LYNX_PATH`" ]
   then
     CONVERT="$LYNX_PATH"
     ARGS="-force_html -dump -nolist -width=72"
-  elif [ -n "`which "$LINKS_PATH" 2>/dev/null`" ]
+  elif [ -n "`type -t $LINKS_PATH`" ]
   then
     CONVERT="$LINKS_PATH"
     ARGS="-dump"
