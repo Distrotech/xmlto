@@ -8,8 +8,9 @@ Group: Applications/System
 #URL: http://cyberelk.net/tim/xmlto/
 #Source0: http://cyberelk.net/tim/data/xmlto/stable/%{name}-%{version}.tar.bz2
 URL: https://fedorahosted.org/xmlto/
-Source0: http://svn.fedorahosted.org/svn/%{name}/%{name}-%{version}.tar.bz2
-BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
+Source0: https://fedorahosted.org/releases/x/m/%{name}/%{name}-%{version}.tar.bz2
+
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: docbook-xsl >= 1.56.0
 BuildRequires: libxslt
@@ -23,7 +24,7 @@ Requires: @WEBBROWSER@
 
 Requires: libxslt
 Requires: docbook-dtds
-Requires: util-linux, flex, which
+Requires: util-linux, flex
 
 %description
 This is a package for converting XML files to various formats using XSL
@@ -65,7 +66,7 @@ make check
 
 %install
 rm -rf %{buildroot}
-%makeinstall
+make install DESTDIR=%{buildroot} INSTALL="install -p"
 
 [ -d %{buildroot}%{_datadir}/xmlto/xsl ] || \
   mkdir %{buildroot}%{_datadir}/xmlto/xsl
@@ -93,7 +94,7 @@ rm -rf %{buildroot}
 %files xhtml
 %defattr(-,root,root,-)
 %dir %{_datadir}/xmlto/format/xhtml1/
-%{_datadir}/xmlto/format/xhtml1
+%{_datadir}/xmlto/format/xhtml1/*
 
 %changelog
 * Wed Mar 25 2009 Ondrej Vasik <ovasik@redhat.com>
