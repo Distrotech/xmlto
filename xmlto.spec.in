@@ -97,6 +97,15 @@ rm -rf %{buildroot}
 %{_datadir}/xmlto/format/xhtml1/*
 
 %changelog
+* Mon Sep 21 2009 Ondrej Vasik <ovasik@redhat.com>
+- New version 0.0.23
+- added autodetection for more common tools like
+  gnu cp or tail
+- added option --noautosize to prevent overriding
+  of user-defined or system-default paper size
+- use shell built-in 'type -t' instead of 'which'
+  utility for detection of file availability
+
 * Wed Mar 25 2009 Ondrej Vasik <ovasik@redhat.com>
 - New version 0.0.22
 - added xhtml1 source format support
