@@ -7,6 +7,8 @@ Xmlto news
     hardcoded ones
   - use `type -t` bash shell builtin instead of `which`
     utility for detection of file availability
+  - new option --noautosize to prevent overriding of
+    user-defined paper sizes
 
 0.0.22 (stable)
   - added experimental support for xhtml1 source format

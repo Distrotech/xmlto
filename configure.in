@@ -35,8 +35,8 @@ else some other implementation that supports --longoptions.
 fi
 AC_MSG_RESULT([yes])
 
-AC_ARG_VAR([PAPERCONF], [Name and path of the `paperconf' (libpaper) program.])
-AC_PATH_PROG([PAPERCONF], [paperconf], [paperconf])
+AC_ARG_VAR([PAPER_CONF], [Name and path of the `paperconf' (libpaper) program.])
+AC_PATH_PROG([PAPER_CONF], [paperconf], [paperconf])
 
 AC_ARG_VAR([LOCALE], [Name and path of the `locale' program.])
 AC_PATH_PROG([LOCALE], [locale], [locale])

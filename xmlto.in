@@ -46,6 +46,7 @@ OPTIONs are:
                   command line
   --noclean       temp files are not deleted automatically
                   (good for diagnostics)
+  --noautosize    do not autodetect paper size via locales or paperconf
   --with-fop      use fop for formatting (if fop available)
   --with-dblatex  use dblatex for formatting (if dblatex available)
 
@@ -119,7 +120,7 @@ trap -- 'cd /; [ -z "${CLEANFILES[*]}" ] || rm -rf "${CLEANFILES[@]}"' EXIT
 
 XSLTOPTS=
 SEARCHPATH=
-PAPERCONF_PATH=@PAPERCONF@
+PAPERCONF_PATH=@PAPER_CONF@
 LOCALE_PATH=@LOCALE@
 XMLLINT_PATH=@XMLLINT@
 XSLTPROC_PATH=@XSLTPROC@
@@ -216,6 +217,7 @@ XSLTOPTS="$XSLTOPTS --xinclude"
 
 SKIP_VALIDATION=0
 EXTENSIONS=0
+NO_AUTOSIZE=0
 
 #actual possibilities DEFAULT(XSL-FO/passivetex), FOP and DBLATEX
 USE_BACKEND=@BACKEND@
@@ -249,7 +251,7 @@ GCP_PATH=@GCP@
 
 # Process any options
 ARGS=$(${GETOPT} \
-	--longoptions=help,version,extensions,searchpath:,skip-validation,stringparam:,noclean,with-fop,with-dblatex \
+	--longoptions=help,version,extensions,searchpath:,skip-validation,stringparam:,noclean,noautosize,with-fop,with-dblatex \
 	-n xmlto -- x:m:o:p:v "$@")
 [ $? != 0 ] && { usage; exit 1; }
 eval set -- "$ARGS"
@@ -328,6 +330,10 @@ while [ "$#" -gt "0" ]; do
 	trap -- 'cd /; [ -z "${CLEANFILES[*]}" ] || echo "${CLEANFILES[@]}"' EXIT
 	shift
 	;;
+  --noautosize)
+  NO_AUTOSIZE=1
+  shift
+  ;;
   --with-fop)
 	##use fop instead of passivetex where possible
 	if [ -z "`type -t $FOP_PATH`" ]
@@ -395,7 +401,7 @@ fi
 # Since we know DEST_FORMAT, we know whether or not to use $papersizemod.
 case "$DEST_FORMAT" in
   fo | pdf | ps | dvi)
-    if [ -n "$papersizemod" ]
+    if [ "$NO_AUTOSIZE" -eq 0 ] && [ -n "$papersizemod" ]
     then
       XSL_MODS[$XSL_MOD_COUNT]="$papersizemod"
       XSL_MOD_COUNT=$(($XSL_MOD_COUNT + 1))

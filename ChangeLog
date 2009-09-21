@@ -5,7 +5,9 @@
 		xmlto under Solaris)
 	* xmlto.in: use detected tail command, export gnu cp
 		location for usage in format backends, use `type -t`
-		instead of `which` for detection of file availability.
+		instead of `which` for detection of file availability,
+		do not use autodetected papersize when --noautosize
+		option is specified.
 	*	format/*:	use detected gnu cp instead of hardcoded
 		cp, use `type -t` instead of `which` for detection
 		of file availability.

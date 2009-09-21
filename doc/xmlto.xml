@@ -72,6 +72,7 @@
     <arg choice="opt"><option>--stringparam</option>
       <replaceable>paramname</replaceable>=<replaceable>paramvalue</replaceable></arg>
     <arg choice="opt"><option>--noclean</option></arg>
+    <arg choice="opt"><option>--noautosize</option></arg>
     <arg choice="opt"><option>--with-fop</option></arg>
     <arg choice="opt"><option>--with-dblatex</option></arg>
 	  <arg choice="req"><replaceable>format</replaceable></arg>
@@ -257,6 +258,22 @@
 	      <para>Temporary files are not deleted(their names
           are shown and kept in tmp directory). It could
           help with analyzing problems.</para>
+	    </listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><option>--noautosize</option></term>
+	    <listitem>
+	       <para> By default, some XSL variables are overriden
+         by autodetection (<varname>page.width</varname> and
+         <varname>page.height</varname> for <application>paperconf</application>
+         (libpaper) use, <varname>paper.type</varname> for locale-based
+         (<envar>LC_PAPER</envar>) selection). With this
+         option, <command>xmlto</command> doesn’t use this autodetection
+         and user is able to modify defaults himself (either via default
+         <filename>param.xsl</filename> modification or by user-defined
+          XSL fragment).
+	       </para>
 	    </listitem>
 	  </varlistentry>
 
