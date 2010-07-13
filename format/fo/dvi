@@ -12,8 +12,11 @@ post-process)
     exit 3
   fi
   # Work around stupid tetex bug with '_' in filenames
-  # Also work around stupid tetex limitation with long lines (bug #101055)
-  sed -e "s,/>,\n/>,g" "$XSLT_PROCESSED" >tmp.fo
+  # Also work around stupid tetex limitation with long lines (rhbz #101055)
+  # and workaround passivetex limitation for chapter titles starting with L
+  # (rhbz #526273)
+  sed -e "s,/>,/>\n,g" \
+      -e "s,block>,&\n,g" "$XSLT_PROCESSED" >tmp.fo
   OUT=output
   TEXINPUTS="$(dirname "$INPUT_FILE")::$SEARCHPATH"
   export TEXINPUTS
