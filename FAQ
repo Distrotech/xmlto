@@ -13,3 +13,6 @@ A: Original sources are under svn revision control on fedorahosted.org
    server. If you want to check out the latest version, use command
 
               svn co http://svn.fedorahosted.org/svn/xmlto
+
+   Autotools helper scripts are not under revision control, so please
+   run `automake --add-missing` to make these files available.
