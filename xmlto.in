@@ -311,9 +311,25 @@ while [ "$#" -gt "0" ]; do
 	shift
 	;;
   --searchpath)
-	SEARCHPATH="$SEARCHPATH:$2"
-	SEARCHPATH="${SEARCHPATH#:}"
-	SEARCHPATH="${SEARCHPATH%:}"
+	local oldIFS="${IFS}"
+	IFS=":"
+	for asearchpath in "$2"; do
+	  # wrangle relative paths into absolute ones so that the user
+	  # isn't surprised if he does ``--searchpath .''
+	  case "${asearchpath}" in
+	   /*) ;;
+	   *) asearchpath="${PWD}/${asearchpath}" ;;
+	  esac
+	  SEARCHPATH="${SEARCHPATH}${XML_SEARCHPATH_SEPARATOR}${asearchpath}"
+	  # we only need a colon if more than one path is in the searchpath
+	  # and only after the first iteration.
+	  XML_SEARCHPATH_SEPARATOR=":"
+	done
+	IFS="${oldIFS}"
+
+	# This is the cleanest method I can think of, but requires calls to
+	# xmllint and xsltproc to be run through eval --ohnobinki
+	[ -n "${SEARCHPATH}" ] && SEARCHPATH_FORMATTED="--path \"${SEARCHPATH}\""
 	shift 2
 	;;
   --skip-validation)
@@ -506,8 +522,10 @@ then
 
     [ "$VERBOSE" -ge 1 ] && \
     echo >&2 \
-       "$XMLLINT_PATH --noout --nonet --xinclude --postvalid --noent \"$INPUT_FILE\""
-    "$XMLLINT_PATH" --noout --nonet --xinclude --postvalid --noent "$INPUT_FILE" 2>"${VALIDATION}"
+	"\"${XMLLINT_PATH}\" --noout --nonet --xinclude --postvalid --noent ${SEARCHPATH_FORMATTED} \"${INPUT_FILE}\""
+    # eval is for SEARCHPATH_FORMATTED's proper expansion
+    # make sure expansions are protected from eval
+    eval "\"${XMLLINT_PATH}\" --noout --nonet --xinclude --postvalid --noent ${SEARCHPATH_FORMATTED} \"${INPUT_FILE}\"" 2>"${VALIDATION}"
     xmllint_status=$?
 
     if [ $xmllint_status -ne 0 ]
@@ -542,37 +560,24 @@ else
     XSLTOPTS="$XSLTOPTS -v"
   fi
 
-  if [ -n "$SEARCHPATH" ]
-  then
-    XSLTWITHPATH=--path
-    XSLTPATH=$(echo "$SEARCHPATH" | tr : ' ')
-    XSLTSHOWPATH="$XSLTWITHPATH \"$XSLTPATH\""
-  fi
-
-  XSLTOPTS="$XSLTPARAMS $XSLTOPTS"
-  [ "$VERBOSE" -ge 1 ] && \
-   echo -e >&2 "$XSLTPROC_PATH ${XSLTOPTS} ${XSLTSHOWPATH}\\\\\n -o \"$XSLT_PROCESSED\" \\\\\n $STYLESHEET \\\\\n \"$INPUT_FILE\""
-
-  if [ -z "$XSLTWITHPATH" ]
-  then
-    "$XSLTPROC_PATH" $XSLTOPTS -o "$XSLT_PROCESSED" "$STYLESHEET" "$INPUT_FILE"
-  else
-    "$XSLTPROC_PATH" $XSLTOPTS $XSLTWITHPATH "$XSLTPATH" \
-      -o "$XSLT_PROCESSED" "$STYLESHEET" "$INPUT_FILE"
-  fi
+  XSLTOPTS="${XSLTPARAMS} ${XSLTOPTS}"
+  [ "${VERBOSE}" -ge 1 ] && \
+   echo -e >&2 "${XSLTPROC_PATH} ${XSLTOPTS} ${SEARCHPATH_FORMATTED} \\\\\n -o \"${XSLT_PROCESSED}\" \\\\\n \"${STYLESHEET}\" \\\\\n \"${INPUT_FILE}\""
+  # eval is for SEARCHPATH_FORMATTED's proper expansion
+  eval "\"${XSLTPROC_PATH}\" ${XSLTOPTS} ${SEARCHPATH_FORMATTED} -o \"${XSLT_PROCESSED}\" \"${STYLESHEET}\" \"${INPUT_FILE}\""
 
   if [ $? == 4 ]
   then
     XSLTOPTS="${XSLTOPTS} --catalogs"
-    [ "$VERBOSE" -ge 1 ] && \
-      echo >&2 "No XML Catalogs?  Trying again with --catalogs.."
-    "$XSLTPROC_PATH" $XSLTOPTS -o "$XSLT_PROCESSED" "$STYLESHEET" "$INPUT_FILE"
+    if [ "$VERBOSE" -ge 1 ]; then
+	echo >&2 "No XML Catalogs?  Trying again with --catalogs:"
+	echo -e >&2 "${XSLTPROC_PATH} ${XSLTOPTS} ${SEARCHPATH_FORMATTED}\\\\\n -o \"${XSLT_PROCESSED}\" \\\\\n \"${STYLESHEET}\" \\\\\n \"${INPUT_FILE}\""
+    fi
+    eval "\"${XSLTPROC_PATH}\"" ${XSLTOPTS} ${SEARCHPATH_FORMATTED} -o "\"${XSLT_PROCESSED}\"" "\"${STYLESHEET}\"" "\"${INPUT_FILE}\""
   fi
 
-  if [ $? -gt 0 ]
-  then
-    exit $?
-  fi
+  xsltproc_status=$?
+  [ ${xsltproc_status} -gt 0 ] && exit ${xsltproc_status}
 fi
 
 if [ ! -d "$OUTPUT_DIR" ]
