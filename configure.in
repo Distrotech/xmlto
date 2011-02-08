@@ -29,7 +29,7 @@ opts=`$GETOPT --longoptions=help x -x`
 if test x"$opts" != x" -x --"; then
        AC_MSG_RESULT([no])
        AC_MSG_ERROR([
-You need getopt from <http://huizen.dds.nl/~frodol/getopt.html>, or
+You need getopt from <http://software.frodo.looijaard.name/getopt/>, or
 else some other implementation that supports --longoptions.
 ])
 fi
