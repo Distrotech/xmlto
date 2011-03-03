@@ -1,3 +1,7 @@
+2011-03-03  Ondrej Vasik <ovasik@redhat.com>
+	* format/{docbook,xhtml}/txt: show the text-web-browser
+	        converting command in verbose mode
+
 2010-07-13  Ondrej Vasik <ovasik@redhat.com>
 	* format/fo/{ps,dvi,pdf}: workaround passivetex limitation
 		for chapters titles starting with L (rhbz#526273)

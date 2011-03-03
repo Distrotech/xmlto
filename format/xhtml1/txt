@@ -23,6 +23,8 @@ DEFAULT|DBLATEX)
     if [ "$VERBOSE" -ge 1 ]
     then
       echo >&2 "Convert HTML to ASCII"
+      BASENAMEFILE="`basename ${XSLT_PROCESSED%.}`"
+      echo >&2 "Using : \"${CONVERT} ${ARGS} ${POSTARGS} ${XSLT_PROCESSED}  > $OUTPUT_DIR/${BASENAMEFILE}.txt\""
     fi
     ${CONVERT} ${ARGS} ${POSTARGS} ${XSLT_PROCESSED} > \
      "$OUTPUT_DIR/$(basename ${XSLT_PROCESSED%.*}).txt"
