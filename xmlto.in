@@ -566,6 +566,9 @@ else
   # eval is for SEARCHPATH_FORMATTED's proper expansion
   eval "\"${XSLTPROC_PATH}\" ${XSLTOPTS} ${SEARCHPATH_FORMATTED} -o \"${XSLT_PROCESSED}\" \"${STYLESHEET}\" \"${INPUT_FILE}\""
 
+  #xsltproc may return no file on empty input, touch it to have it for sure
+  touch "$XSLT_PROCESSED"
+
   if [ $? == 4 ]
   then
     XSLTOPTS="${XSLTOPTS} --catalogs"
