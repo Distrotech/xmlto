@@ -38,15 +38,16 @@ OPTIONs are:
                   the current working directory
   -p postprocopts pass option to postprocessor
   --extensions    turn on stylesheet extensions for this tool chain
+  --noautosize    do not autodetect paper size via locales or paperconf
+  --noclean       temp files are not deleted automatically
+                  (good for diagnostics)
+  --noextensions  do not use passivetex/fop extensions
   --searchpath    colon-separated list of fallback directories
   --skip-validation
                   do not attempt to validate the input before processing
   --stringparam paramname=paramvalue
                   pass a named parameter to the stylesheet from the
                   command line
-  --noclean       temp files are not deleted automatically
-                  (good for diagnostics)
-  --noautosize    do not autodetect paper size via locales or paperconf
   --with-fop      use fop for formatting (if fop available)
   --with-dblatex  use dblatex for formatting (if dblatex available)
 
@@ -216,7 +217,7 @@ XSLTPARAMS=""
 XSLTOPTS="$XSLTOPTS --xinclude"
 
 SKIP_VALIDATION=0
-EXTENSIONS=0
+BACKEND_EXTENSIONS=1
 NO_AUTOSIZE=0
 
 #actual possibilities DEFAULT(XSL-FO/passivetex), FOP and DBLATEX
@@ -298,13 +299,13 @@ while [ "$#" -gt "0" ]; do
 	shift 2
 	;;
   --extensions)
-	# Turn on extensions for whatever tools we are using.
-	# XSLTOPTS will be done later(once we will know which
-	# tool is used for processing)
-	EXTENSIONS=1
 	XSLTOPTS="$XSLTOPTS --param use.extensions '1'"
 	shift
 	;;
+  --noextensions)
+        BACKEND_EXTENSIONS=0
+        shift
+        ;;
   -v)
 	: ${VERBOSE:-0}
 	VERBOSE=$((${VERBOSE}+1))
@@ -379,13 +380,11 @@ while [ "$#" -gt "0" ]; do
   esac
 done
 
-##here we would decide which extensions should be active
-if [ "$EXTENSIONS" -eq 1 ]
+if [ "$BACKEND_EXTENSIONS" -eq 1 ]
 then
   case "$USE_BACKEND" in
   FOP)
-      #maybe fop1.extensions for latest fop, but keeping this one
-      XSLTOPTS="$XSLTOPTS --param fop.extensions '1'" ;;
+      XSLTOPTS="$XSLTOPTS --param fop.extensions '1' --param fop1.extensions '1'" ;;
   DBLATEX)
       ;;
   DEFAULT)
