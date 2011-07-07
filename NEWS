@@ -1,5 +1,15 @@
 Xmlto news
 ----------
+to be 0.0.24 (stable)
+  - README file was improved to provide better guidance
+    for users
+  - show the text-web-browser converting command in
+    verbose mode for better debugging
+  - workaround passivetex limitation for chapters
+    titles starting with L
+  - use passivetex/fop extensions by default, provide
+    --noextensions option to disable them
+
 0.0.23 (stable)
   - add support for detection of tail and gnu cp, do
     not hardcode /bin/bash initial value

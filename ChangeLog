@@ -1,3 +1,10 @@
+2011-07-07  Ondrej Vasik <ovasik@redhat.com>
+	* README: Improve the readme file, create online manual
+	        pages on project wiki
+	* xmlto.in: use backend extensions by default, provide
+		--noextensions to disable this
+	* doc/xmlto.xml: mention --noextensions option in documentation
+
 2011-03-03  Ondrej Vasik <ovasik@redhat.com>
 	* format/{docbook,xhtml}/txt: show the text-web-browser
 	        converting command in verbose mode

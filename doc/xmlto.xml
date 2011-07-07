@@ -73,6 +73,7 @@
       <replaceable>paramname</replaceable>=<replaceable>paramvalue</replaceable></arg>
     <arg choice="opt"><option>--noclean</option></arg>
     <arg choice="opt"><option>--noautosize</option></arg>
+    <arg choice="opt"><option>--noextensions</option></arg>
     <arg choice="opt"><option>--with-fop</option></arg>
     <arg choice="opt"><option>--with-dblatex</option></arg>
 	  <arg choice="req"><replaceable>format</replaceable></arg>
@@ -218,10 +219,8 @@
 	    <term><option>--extensions</option></term>
 	    <listitem>
 	      <para>Turn on stylesheet extensions for the tool chain
-	       in use (for example, this might turn on
-	       <varname>passivetex.extensions</varname> and
-	       <varname>use.extensions</varname> if PassiveTeX is
-	       being used).  The variables turned on are the ones used
+	       in use (<varname>use.extensions</varname> is turned on). 
+               The variables turned on are the ones used
 	       by Norman Walsh's DocBook XSL stylesheets.</para>
 	    </listitem>
 	  </varlistentry>
@@ -276,6 +275,18 @@
 	       </para>
 	    </listitem>
 	  </varlistentry>
+
+          <varlistentry>
+	    <term><option>--noextensions</option></term>
+	    <listitem>
+	       <para> By default, <command>xmlto</command> enables XSL params <varname>passivetex.extensions</varname> for
+               <application>passivetex</application> backend and <varname>fop.extensions</varname> and <varname>fop1.extensions</varname>
+               for <application>fop</application> backend.
+               This usually produces better results. If you for some reason don't want to use these parameters, just
+               disable them using this option.
+	       </para>
+	    </listitem>
+          </varlistentry>
 
 	  <varlistentry>
 	    <term><option>--with-fop</option></term>
