@@ -112,6 +112,9 @@ AC_PATH_PROG([TAIL], [tail], [tail])
 AC_ARG_VAR([GCP], [Name and path of a GNU cp binary (need at least -P)])
 AC_PATH_PROG([GCP], [cp], [cp])
 
+AC_ARG_VAR([ZIP], [Name and path of a zip binary (compatible with PKZIP)])
+AC_PATH_PROG([ZIP], [zip], [zip])
+
 dnl
 dnl default webrowser
 dnl

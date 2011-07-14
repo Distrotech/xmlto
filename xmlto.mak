@@ -1,6 +1,6 @@
 # Makefile rules for using xmlto
 
-%.pdf %.dvi %.ps %.txt %.fo: %.xml
+%.pdf %.dvi %.ps %.epub %.txt %.fo: %.xml
 	xmlto $(XMLTOFLAGS) $(subst .,,$(suffix $@)) $<
 
 %.pdf %.dvi %.ps: %.fo

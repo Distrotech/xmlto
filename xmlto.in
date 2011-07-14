@@ -249,6 +249,7 @@ LINKS_PATH=@LINKS@
 W3M_PATH=@W3M@
 LYNX_PATH=@LYNX@
 GCP_PATH=@GCP@
+ZIP_PATH=@ZIP@
 
 # Process any options
 ARGS=$(${GETOPT} \
@@ -462,6 +463,7 @@ fi
 # Ask the format script what stylesheet to use.
 XSLT_PROCESSOR="$XSLTPROC_PATH" # We only know about xsltproc right now.
 export XSLT_PROCESSOR
+export ZIP_PATH
 export W3M_PATH
 export GCP_PATH
 export LINKS_PATH

@@ -97,6 +97,14 @@ rm -rf %{buildroot}
 %{_datadir}/xmlto/format/xhtml1/*
 
 %changelog
+* Thu Jul 14 2011 Ondrej Vasik <ovasik@redhat.com>
+- New version 0.0.24
+- use backend extensions by default (--noextensions
+  to diable it)
+- basic support for epub format
+- workaround passivetex limitation for chapter titles
+  starting with L (rhbz #526273)
+
 * Mon Sep 21 2009 Ondrej Vasik <ovasik@redhat.com>
 - New version 0.0.23
 - added autodetection for more common tools like

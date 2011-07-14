@@ -1,3 +1,9 @@
+2011-07-14  Ondrej Vasik <ovasik@redhat.com>
+	* format/docbook/epub: initial experimental support for
+	        docbook to epub conversion
+	* configure.in: detect zip location
+	* xmlto.in: provide detected zip location to epub convertor
+
 2011-07-07  Ondrej Vasik <ovasik@redhat.com>
 	* README: Improve the readme file, create online manual
 	        pages on project wiki

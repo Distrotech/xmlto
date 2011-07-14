@@ -5,6 +5,7 @@ man1_MANS = man/man1/xmlto.1 man/man1/xmlif.1
 xmlif_xmlif_SOURCES = xmlif/xmlif.l
 
 baseformats = format/docbook/dvi \
+        format/docbook/epub \
 	format/docbook/fo \
 	format/docbook/html \
 	format/docbook/html-nochunks \

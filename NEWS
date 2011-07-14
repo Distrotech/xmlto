@@ -1,6 +1,6 @@
 Xmlto news
 ----------
-to be 0.0.24 (stable)
+0.0.24 (stable)
   - README file was improved to provide better guidance
     for users
   - show the text-web-browser converting command in
@@ -9,6 +9,8 @@ to be 0.0.24 (stable)
     titles starting with L
   - use passivetex/fop extensions by default, provide
     --noextensions option to disable them
+  - basic experimental support for conversion from docbook
+    to epub
 
 0.0.23 (stable)
   - add support for detection of tail and gnu cp, do
