@@ -100,7 +100,7 @@ rm -rf %{buildroot}
 * Thu Jul 14 2011 Ondrej Vasik <ovasik@redhat.com>
 - New version 0.0.24
 - use backend extensions by default (--noextensions
-  to diable it)
+  to disable it)
 - basic support for epub format
 - workaround passivetex limitation for chapter titles
   starting with L (rhbz #526273)
