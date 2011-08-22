@@ -1,6 +1,6 @@
 bin_SCRIPTS = xmlto
 bin_PROGRAMS = xmlif/xmlif
-man1_MANS = man/man1/xmlto.1 man/man1/xmlif.1
+dist_man1_MANS = man/man1/xmlto.1 man/man1/xmlif.1
 
 xmlif_xmlif_SOURCES = xmlif/xmlif.l
 
@@ -68,16 +68,14 @@ EXTRA_DIST = xmlto.spec \
 	doc/xmlif.xml \
 	xmlto.mak
 
-$(man1_MANS): $(top_srcdir)/doc/xmlto.xml $(top_srcdir)/doc/xmlif.xml
-	for xml in xmlif.xml xmlto.xml; do \
-	  FORMAT_DIR=$(top_srcdir)/format \
-	   $(BASH) ./xmlto -o man/man1 man $(top_srcdir)/doc/$$xml ; \
-	done || ( RC=$$?; exit $$RC )
+GEN_MANPAGE = FORMAT_DIR=$(top_srcdir)/format $(BASH) ./xmlto -o $(@D) man $<
+man/man1/xmlto.1: doc/xmlto.xml ; $(GEN_MANPAGE)
+man/man1/xmlif.1: doc/xmlif.xml ; $(GEN_MANPAGE)
 
 TESTS_ENVIRONMENT = top_srcdir=$(top_srcdir) top_builddir=$(top_builddir)
 TESTS = xmlif/test/run-test
 
-CLEANFILES=$(man1_MANS) \
+CLEANFILES=$(dist_man1_MANS) \
 	xmlif/test/test-no-condition \
 	xmlif/test/test-unrelated-condition \
 	xmlif/test/test-html \
