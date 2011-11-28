@@ -22,6 +22,7 @@ MKTEMP=@MKTEMP@ # See http://www.mktemp.org if missing on your system
 BASH=@BASH@     # GNU bash, for running the format scripts
 GETOPT=@GETOPT@ # a getopt that supports --longoptions
 TAIL=@TAIL@     # a tail that supports -n (posix)
+GREP=@GREP@     # GNU grep, for searching patterns
 
 version () {
   echo "@PACKAGE@ version @VERSION@"
@@ -236,6 +237,14 @@ then
   echo >&2 "@PACKAGE@: Warning: fop not found or not executable."
   echo >&2 "@PACKAGE@: Using default backend..."
   USE_BACKEND=DEFAULT
+else
+  # we should enable fop.extensions for fop 0_17,0_18 and 0_20*,
+  # fop1.extensions for the rest
+  if test x`$FOP_PATH -v 2>/dev/null | $GREP 0_[12]` == x; then
+    FOPVERSION="fop1"
+  else
+    FOPVERSION="fop"
+  fi
 fi
 if [ x"$USE_BACKEND" = xDBLATEX ] && \
    [ -z "`type -t $DBLATEX_PATH`" ]
@@ -385,7 +394,7 @@ if [ "$BACKEND_EXTENSIONS" -eq 1 ]
 then
   case "$USE_BACKEND" in
   FOP)
-      XSLTOPTS="$XSLTOPTS --param fop.extensions '1' --param fop1.extensions '1'" ;;
+      XSLTOPTS="$XSLTOPTS --param $FOPVERSION.extensions '1'" ;;
   DBLATEX)
       ;;
   DEFAULT)

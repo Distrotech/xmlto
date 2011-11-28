@@ -1,3 +1,8 @@
+2011-11-28  Ondrej Vasik <ovasik@redhat.com>
+	* configure.in: detect grep location
+	* xmlto.in: use (fop/fop1).extensions parameter based on real
+	            fop version
+
 2011-07-14  Ondrej Vasik <ovasik@redhat.com>
 	* format/docbook/epub: initial experimental support for
 	        docbook to epub conversion
