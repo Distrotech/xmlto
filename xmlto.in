@@ -240,7 +240,7 @@ then
 else
   # we should enable fop.extensions for fop 0_17,0_18 and 0_20*,
   # fop1.extensions for the rest
-  if test x`$FOP_PATH -v 2>/dev/null | $GREP 0_[12]` == x; then
+  if [ x`$FOP_PATH -v 2>/dev/null | $GREP 0_[12]` = x ]; then
     FOPVERSION="fop1"
   else
     FOPVERSION="fop"
