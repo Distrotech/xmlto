@@ -1,5 +1,11 @@
 Xmlto news
 ----------
+0.0.25 (stable)
+  - prevent possible collisions in manpage generation
+  - fix broken fop/fop1 extensions
+  - fix handling of external data objects with fop
+    (debian #568894)
+
 0.0.24 (stable)
   - README file was improved to provide better guidance
     for users

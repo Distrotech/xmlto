@@ -14,7 +14,10 @@ FOP)
 	  then
 	    echo >&2 "Post-process XSL-FO to MIF"
 	  fi
+	  #we need to change dir to handle external data objects correctly
+	  cd "${OUTPUT_DIR}"
 	  "$FOP_PATH" ${POSTARGS} -fo "${XSLT_PROCESSED}" -"${EXT}" "$OUTPUT_DIR/$(basename ${XSLT_PROCESSED%.*}).${EXT}"
+	  cd -
 	  ;;
 	esac
 	;;
