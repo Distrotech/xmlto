@@ -1,5 +1,9 @@
 Xmlto news
 ----------
+0.0.26 (stable)
+  - --searchpath option no longer produces warning
+    about local builtin used outside the function
+    (debian #652974)
 0.0.25 (stable)
   - prevent possible collisions in manpage generation
   - fix broken fop/fop1 extensions

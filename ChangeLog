@@ -1,3 +1,8 @@
+2011-01-02  Ondrej Vasik <ovasik@redhat.com>
+	* xmlto.in: move searchpath computing into a function to
+	  prevent shell warning about local builtin used outside the
+	  function (debian #652974)
+
 2011-11-28  Ondrej Vasik <ovasik@redhat.com>
 	* configure.in: detect grep location
 	* xmlto.in: use (fop/fop1).extensions parameter based on real
