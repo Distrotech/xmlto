@@ -98,7 +98,7 @@ make_temp () {
 compute_searchpath () {
   local oldIFS="${IFS}"
   IFS=":"
-  for asearchpath in "$2"; do
+  for asearchpath in "$1"; do
     # wrangle relative paths into absolute ones so that the user
     # isn't surprised if he does ``--searchpath .''
     case "${asearchpath}" in
@@ -340,7 +340,7 @@ while [ "$#" -gt "0" ]; do
 	shift
 	;;
   --searchpath)
-	compute_searchpath
+	compute_searchpath "$2"
 	# This is the cleanest method I can think of, but requires calls to
 	# xmllint and xsltproc to be run through eval --ohnobinki
 	[ -n "${SEARCHPATH}" ] && SEARCHPATH_FORMATTED="--path \"${SEARCHPATH}\""
