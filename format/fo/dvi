@@ -15,7 +15,7 @@ post-process)
   # Also work around stupid tetex limitation with long lines (rhbz #101055)
   # and workaround passivetex limitation for chapter titles starting with L
   # (rhbz #526273)
-  sed -e "s,/>,/>\n,g" \
+  ${SED_PATH} -e "s,/>,/>\n,g" \
       -e "s,block>,&\n,g" "$XSLT_PROCESSED" >tmp.fo
   OUT=output
   TEXINPUTS="$(dirname "$INPUT_FILE")::$SEARCHPATH"

@@ -112,6 +112,9 @@ AC_PATH_PROG([TAIL], [tail], [tail])
 AC_ARG_VAR([GREP], [Name and path of a GNU grep binary.])
 AC_PATH_PROG([GREP], [grep], [grep])
 
+AC_ARG_VAR([SED], [Name and path of a GNU sed binary.])
+AC_PATH_PROG([SED], [sed], [sed])
+
 AC_ARG_VAR([GCP], [Name and path of a GNU cp binary (need at least -P)])
 AC_PATH_PROG([GCP], [cp], [cp])
 
