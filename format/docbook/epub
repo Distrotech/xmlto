@@ -20,6 +20,7 @@ case "$1" in
   fi
   INPUT_DIR=`dirname $INPUT_FILE`
   CSS_DEST_DIR=$PWD/OEBPS
+  mkdir $PWD/OEBPS
   USED_CSS_LIST=`${GREP_PATH} 'link rel="stylesheet"' $CSS_DEST_DIR/*.html | ${SED_PATH} -e's/.*<link rel="stylesheet" type="text\/css" href="\(.*\.css\)"\/>.*/\1/' | uniq`
   for CSS_SOURCE in $USED_CSS_LIST
   do
